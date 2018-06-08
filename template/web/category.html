@@ -1,0 +1,169 @@
+{template 'common/header'}
+<style>
+	.main{
+		margin: 0 0 30px 0;
+	}
+</style>
+<ul class="nav nav-tabs">
+    <li {if $op == 'index'}{/if}><a href="{php echo $this->createWebUrl('lend', array('op' => 'index'))}">借贷管理</a></li>
+	<li {if $op == 'index'}class="active"{/if}><a href="{php echo $this->createWebUrl('category', array('op' => 'index'))}">类别管理</a></li>
+
+
+
+
+</ul>
+{if $op == 'index'}
+<div class="pull-right">
+        <a href="{php echo $this->createWebUrl('category', array('op' => 'post'))}"  class="btn btn-primary  we7-margin-left">+添加类别</a>
+</div>
+<div class="main">
+    <div class="panel panel-default">
+        <div class="table-responsive panel-body">
+            <form action="" method="post" class="form-horizontal form" onsubmit="return formcheck(this)">
+              <table class="table table-hover">
+                   <thead class="navbar-inner">
+                    <tr>
+                        <th>ID</th>
+                        <th>类别名称</th>
+                        <th>排序</th>
+                        <th>最小值</th>
+                        <th>最大值</th>
+                        <th>状态</th>
+                        <th>操作</th>
+                    </tr>
+                    {loop $list $row}
+                    <tr>
+						<td>{$row['id']}</td>
+						<td>{$row['name']}</td>
+                        <td>{$row['sort']}</td>
+                        <td>{$row['money_min']}</td>
+                        <td>{$row['money_max']}</td>
+					    <td><div att="{$row['id']}" {if $row['status'] ==1}class="switch switchOn status" {else} class="switch status"{/if}></div></td>
+                        <td>
+                            <a class="btn btn-default btn-sm" href="{php echo $this->createWebUrl('category', array('op' => 'post', 'id' => $row['id']))}" title="编辑"><i class="fa fa-pencil"></i></a>
+                            <a class="btn btn-default btn-sm" onclick="return confirm('是否要删除？');return false;" href="{php echo $this->createWebUrl('category', array('op' => 'delete', 'id' => $row['id']))}" title="删除"><i class="fa fa-times"></i></a>
+                        </td>
+                    </tr>
+                    {/loop}
+                    <tr>
+                        <td colspan="5">
+                            <input type="hidden" name="token" value="{$_W['token']}"/>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </form>
+        </div>
+    </div>
+    {$pager}
+
+</div>
+<script>
+    $('.status').click(function(){
+        var id=$(this).attr('att');
+        var switchOn=$(this).hasClass('switchOn');
+        if(switchOn){
+            var status=1; 
+        }else{
+            var status=2;
+        }
+        var th=$(this);
+        var url="{php echo $this->createWebUrl('category', array('op' => 'status'))}";
+         $.ajax({
+                url:url,
+                type:'post',
+                data:{id:id,status:status},
+                dataType:'json',
+                success:function(res){ 
+                    if(res.info==1){
+                        if(res.status==1){
+                            th.addClass('switchOn');
+                        }else{
+                             th.removeClass('switchOn');
+                        }
+                      
+                    }else{
+                       alert(res.msg);
+                       return false;
+                    }
+                }  
+        });
+    })
+</script>
+</div>
+{elseif $op == 'post'}
+<div class="main">
+	<form action="" method="post" class="form-horizontal form" >
+    <div class="panel panel-default">
+        <div class="panel-heading">类别添加 </div>
+        <div class="panel-body">   
+            <div class="form-group">
+                <label class="col-xs-12 col-sm-3 col-md-2 control-label">类别名称</label>
+                <div class="col-sm-9">
+                    <input type="text" name="data[name]" class="form-control name" value="{$item['name']}" />
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-xs-12 col-sm-3 col-md-2 col-lg-2 control-label">额度</label>
+                <div class="col-xs-12 col-sm-8">
+                    <div class="input-group">
+                        <span class="input-group-addon">￥</span>
+                        <input type="number" name="data[money_min]" class="form-control money_min" {if $item['money_min']}value="{$item['money_min']}"{else}value="0"{/if}>
+                        <span class="input-group-addon" style="border: 0px;background-color: #ffffff;">至</span>
+                        <span class="input-group-addon">￥</span>
+                        <input type="number" name="data[money_max]" class="form-control money_max" {if $item['money_max']}value="{$item['money_max']}"{else}value="0"{/if}>
+                    </div>
+                </div>
+         </div>
+        <div class="form-group">
+                <label class="col-xs-12 col-sm-3 col-md-2 control-label">排序</label>
+                <div class="col-sm-9">
+                    <input type="number" name="data[sort]" class="form-control sort" value="{$item['sort']}" />
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-sm-12">
+            <input name="submit" type="submit" value="提交" class="btn btn-primary ">
+            <input type="hidden" name="token" value="{$_W['token']}"/>
+			<input type="hidden" name="id" value="{$item['id']}"/>
+        </div>
+    </div>
+	</form>
+</div>
+<script>
+require(['jquery', 'util'], function($, util){
+    $(function(){
+        $('form').submit(function(){
+           var name=$(".name").val();
+            if(name==''||name==null){
+                util.message('请填写类别名称');
+                return false;
+            }
+           var money_min=$(".money_min").val();
+            if(money_min==''||money_min==null){
+                util.message('请填写最小额度');
+                return false;
+            }
+            var money_max=$(".money_max").val();
+            if(money_max==''||money_max==null){
+                util.message('请填写最大额度');
+                return false;
+            }
+            var sort=$(".sort").val();
+            if(sort==''||sort==null){
+                util.message('请填写排序');
+                return false;
+            }
+        });
+
+    });
+
+});
+</script>
+{/if}
+
+{template 'common/footer'}

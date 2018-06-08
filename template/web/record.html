@@ -1,0 +1,141 @@
+{template 'common/header'}
+<style>
+	.main{
+		margin: 0 0 30px 0;
+	}
+</style>
+{if $op=='index'}
+<div class="main">
+	<div class="panel panel-default">
+		<div class="panel-heading">筛选</div>
+		<div class="panel-body">
+			<form action="../index.php" method="get" class="form-inline" role="form">
+				<input type="hidden" name="c" value="site" />
+	            <input type="hidden" name="a" value="entry" />
+	            <input type="hidden" name="m" value="wangdai_chaoshi" />
+	            <input type="hidden" name="do" value="record" />
+	            <input type="hidden" name="op" value="index" />
+				<div class="form-group">
+					<label for="mobile">办理银行</label>
+					<select name="bank">
+						<option value="0" {if $bank == 0}selected{/if}>全部银行</option>
+						{loop $banks $row}
+						<option value="{$row['id']}" {if $row['id'] == $bank}selected{/if}>{$row['name']}</option>
+						{/loop}
+					</select>
+				</div>
+				<div class="form-group">
+					<label for="mobile">手机号码</label>
+					<input class="form-control" name="mobile" placeholder="请输入手机号码" type="text" value="{$mobile}">
+				</div>
+				<div class="form-group">
+					<label for="name">真实姓名</label>
+					<input type="text" name="username" class="form-control"  placeholder="请输入真实姓名" value="{$username}" />
+				</div>
+				<button type="submit" class="btn btn-default"><i class="fa fa-search"></i> 搜索</button>
+	            
+			</form>
+		</div>
+	</div>
+
+    <div class="panel panel-default" style="margin-top: 15px;">	
+        <div class="table-responsive panel-body">
+            <form action="" method="post" class="form-horizontal form" onsubmit="return formcheck(this)">
+                <table class="table table-hover" style="margin-top: 15px;">
+                    <thead class="navbar-inner">
+                    <tr>
+                        <th class="text-center">记录ID</th>
+                        <th class="text-center" >用户名称</th>
+                      	<th class="text-center">手机号</th>
+                      	<th class="text-center">身份证号</th>
+                        <th class="text-center">开卡银行</th>
+                        <th class="text-center">返佣总额</th>
+                        <th class="text-center">第一级</th>
+                        <th class="text-center">第二级</th>
+                        <th class="text-center">状态</th>
+                        <th class="text-center">时间</th>
+                        <th class="text-right"style="width: 100px;">操作</th>
+                    </tr>
+                    </thead>
+                    <tbody id="level-list">
+                    {loop $list $row}
+                    <tr>
+						<td class="text-center">
+							{$row['id']}
+						</td>
+						<td class="text-center">
+							{php echo $this->user($row['uid'])['name']}
+						</td>
+							
+						<td>{php echo $this->user($row['uid'])['mobile']}</td>
+						<td class="text-center">
+							{php echo $this->user($row['uid'])['certify']}
+						</td>
+						<td class="text-center">
+							<small>{php echo $this->bank($row['bank'])['name']}</small>
+						</td>
+						<td class="text-center">{$row['fan_total']}</td>
+						<td class="text-center">
+							{if $row['fan_uid1'] != 0}
+							<small>{php echo $this->user($row['fan_uid1'])['name']}</small> <br />({$row['fan_level1']})
+							{else}
+							无
+							{/if}
+						</td>
+						<td class="text-center">
+							{if $row['fan_uid2'] != 0}
+							<small>{php echo $this->user($row['fan_uid2'])['name']}</small> <br />({$row['fan_level2']})
+							{else}
+							无
+							{/if}
+						</td>
+						<td class="text-center" style="width:100px">	
+							{if $row['status'] ==1}
+							<small class="label label-success">审核成功</small>
+							{else if $row['status'] ==2}
+							<small class="label label-default">审核失败</small>
+							{else}
+							<small class="label label-default">未审核</small>
+							{/if}
+							
+						</td>
+						<td class="text-center">
+							<small>{php echo date('m-d H:i',$row['createtime'])}</small>
+						</td>
+                        <td style="text-align: right;">
+                        	{if $row['status']==0&&$row['status']!=2}
+                        	<a class="btn btn-success btn-sm" href="{php echo $this->createWebUrl('record', array('op' => 'confirm', 'id' => $row['id']))}" title="通过"><i class="fa fa-check"></i></a>
+                        	{/if}
+                        	{if $row['status']==0&&$row['status']!=1}
+                       		<a class="btn btn-warning btn-sm" href="{php echo $this->createWebUrl('record', array('op' => 'reject', 'id' => $row['id']))}" title="驳回"><i class="fa fa-reply"></i></a>
+                            {/if}
+                           	{if  $row['status']!=0}
+                            	-----
+                            {/if}
+                   
+<!--                             {if $row['status']==1}
+               				<a class="btn btn-info btn-sm" href="{php echo $this->createWebUrl('record', array('op' => 'cancel', 'id' => $row['id']))}" title="撤回"><i class="fa fa-repeat"></i></a>
+               				{/if} -->
+      <!--                       <a class="btn btn-danger btn-sm" onclick="return confirm('是否要删除？');return false;" href="{php echo $this->createWebUrl('record', array('op' => 'delete', 'id' => $row['id']))}" title="删除"><i class="fa fa-times"></i></a> -->
+                        </td>
+                    </tr>
+                    {/loop}
+                    <tr>
+                        <td colspan="10">
+                            <input type="hidden" name="token" value="{$_W['token']}"/>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+                
+				<div class="pull-right">
+					{$pager}
+				</div>
+                
+            </form>
+        </div>
+    </div>
+  
+</div>
+{/if}
+{template 'common/footer'}

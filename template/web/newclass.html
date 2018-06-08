@@ -1,0 +1,103 @@
+{template 'common/header'}
+<style>
+	.main{
+		margin: 0 0 30px 0;
+	}
+</style>
+<ul class="nav nav-tabs">
+	<li {if $op == 'index'}class="active"{/if}><a href="{php echo $this->createWebUrl('newclass', array('op' => 'index'))}">新闻类别管理</a></li>
+	<li {if $op == 'post'}class="active"{/if}><a href="{php echo $this->createWebUrl('newclass', array('op' => 'post'))}">添加新闻类别</a></li>
+	
+</ul>
+{if $op == 'index'}
+<div class="main">
+    <div class="panel panel-default">
+        <div class="table-responsive panel-body">
+            <form action="" method="post" class="form-horizontal form" onsubmit="return formcheck(this)">
+                <table class="table table-hover" style="margin-top: 15px;">
+                    <thead class="navbar-inner">
+                    <tr>
+                    	<th>id</th>
+                    	<th>标题</th>
+<!--                     	<th>图片</th> -->
+                        <th>操作</th>
+                    </tr>
+                    </thead>
+                    <tbody id="level-list">
+                    {loop $list $row}
+                    <tr>
+                    	<td>{$row['id']}</td>
+						<td>{$row['name']}</td>
+					<!-- 	<td><img src="{php echo $_W['attachurl'].$row['img']}" class="headimg" style="width:45px;height:30px"></td> -->
+                        <td>
+                            <a class="btn btn-default btn-sm" href="{php echo $this->createWebUrl('newclass', array('op' => 'post', 'id' => $row['id']))}" title="编辑"><i class="fa fa-pencil"></i></a>
+                            <a class="btn btn-default btn-sm" onclick="return confirm('是否要删除？');return false;" href="{php echo $this->createWebUrl('newclass', array('op' => 'delete', 'id' => $row['id']))}" title="删除"><i class="fa fa-times"></i></a>
+                        </td>
+                    </tr>
+                    {/loop}
+                    <tr>
+                        <td colspan="6">
+                            <input type="hidden" name="token" value="{$_W['token']}"/>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+                
+				<div class="pull-right">
+					{$pager}
+				</div>
+                
+            </form>
+        </div>
+    </div>
+</div>
+</div>
+{elseif $op == 'post'}
+<div class="main">
+	<form action="" method="post" class="form-horizontal form" >
+    <div class="panel panel-default">
+        <div class="panel-heading">新闻类别 </div>
+        <div class="panel-body">   
+            <div class="form-group">
+                <label class="col-xs-12 col-sm-3 col-md-2 control-label">标题</label>
+                <div class="col-sm-9">
+                    <input type="text" name="name" class="form-control" value="{$item['name']}" />
+                </div>
+            </div>
+
+<!--             <div class="form-group">
+                <label class="col-xs-12 col-sm-3 col-md-2 control-label">缩略图片</label>
+                <div class="col-sm-9">
+            		{php echo tpl_form_field_image('img',$item['img'], '/web/resource/images/nopic.jpg', array('width' => 640, 'height' => 320))}
+                </div>
+            </div> -->
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-sm-12">
+            <input name="submit" type="submit" value="提交" class="btn btn-primary ">
+            <input type="hidden" name="token" value="{$_W['token']}"/>
+			<input type="hidden" name="id" value="{$item['id']}"/>
+        </div>
+    </div>
+	</form>
+</div>
+<script>
+    require(['jquery', 'util'], function($, util){
+    $(function(){
+        $('form').submit(function(){
+           var name=$("[name='name']").val();
+            if(name==''||name==null){
+                util.message('请填写标题');
+                return false;
+            }   
+        });
+
+    });
+
+});
+</script>
+
+{/if}
+
+{template 'common/footer'}

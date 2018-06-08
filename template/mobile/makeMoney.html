@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<title>在线客服</title>
+		<meta name="viewport" content="initial-scale=1, maximum-scale=1">
+		<link rel="shortcut icon" href="{$_W['siteroot']}/addons/wangdai_chaoshi/static/images/favicon.ico">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<link rel="stylesheet" href="{$_W['siteroot']}/addons/wangdai_chaoshi/static/css/light7.css">
+		<link rel="stylesheet" href="{$_W['siteroot']}/addons/wangdai_chaoshi/static/css/icon.css">
+		<link rel="stylesheet" href="{$_W['siteroot']}/addons/wangdai_chaoshi/static/css/style.css?v={$_W['timestamp']}">
+	</head>
+	<style>
+		p {
+			margin: 0;
+		}
+	</style>
+	<body>
+		<div class="page page-current">
+			<div class="content">
+                <div>
+					{php echo htmlspecialchars_decode($config['make_money'])}
+				</div>
+			</div>
+		</div>
+		<script src="{$_W['siteroot']}/addons/wangdai_chaoshi/static/js/jquery.js"></script>
+		<script src="{$_W['siteroot']}/addons/wangdai_chaoshi/static/js/light7.js"></script>
+		<script src="{$_W['siteroot']}/addons/wangdai_chaoshi/static/js/common.js?v={$_W['timestamp']}"></script>
+		{php echo register_jssdk(false);} 
+		<script>
+			wx.ready(function () {
+		        sharedata = {
+		            title: "{$config['share_title']}",
+		            desc: "{$config['share_desc']}",
+		            link: "{$_W['siteroot']}{php echo $this->createMobileUrl('index')}",
+		            imgUrl: "{$_W['attachurl']}{$config['share_img']}",//本域链接
+		        };
+				wx.onMenuShareAppMessage(sharedata);
+				wx.onMenuShareTimeline(sharedata);
+				wx.onMenuShareQQ(sharedata);
+				wx.onMenuShareQZone(sharedata);
+				wx.onMenuShareWeibo(sharedata);
+			});
+		</script>
+	</body>
+</html>

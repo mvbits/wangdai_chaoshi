@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>{$config['title']}</title>
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1">
+    <link rel="shortcut icon" href="{$_W['siteroot']}/addons/wangdai_chaoshi/static/images/favicon.ico">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="stylesheet" href="{$_W['siteroot']}/addons/wangdai_chaoshi/static/css/bootstrap.css">
+    <link rel="stylesheet" href="{$_W['siteroot']}/addons/wangdai_chaoshi/static/css/light7.css">
+    <link rel="stylesheet" href="{$_W['siteroot']}/addons/wangdai_chaoshi/static/css/icon.css">
+    <link rel="stylesheet" href="{$_W['siteroot']}/addons/wangdai_chaoshi/static/css/style.css?v={$_W['timestamp']}">
+</head>
+
+<body>
+<style>
+    .index-title {
+        height: 3rem;
+        border-bottom: 0;
+        margin-bottom: 2px;
+        line-height: 3rem;
+        font-weight: normal;
+        font-size: 16px;
+    }
+
+    .index-title span {
+        border-left: 2px solid #109aff;
+        padding-left: 10px;
+    }
+
+    .index-banks {
+        margin-bottom: .5rem;
+        padding-bottom: 0
+    }
+
+    .index-banks img {
+        width: 45px;
+        height: 45px;
+        border-radius: 50%;
+
+    }
+
+    .actions img {
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        float: left;
+        margin-left: 20px;
+        margin-right: 10px;
+    }
+
+    .actions p {
+        float: left;
+        width: auto !important;
+        height: 50px !important;
+        line-height: 65px !important;
+    }
+
+    .card-lists img{
+        border-radius: 5px;
+    }
+    .card-lists .item-inner {
+        display: block;
+        padding: 0;
+        border-bottom: 0;
+    }
+    .card-lists .item-text {
+        /* height: 2.1rem; */
+        -webkit-line-clamp: 1;
+        height: 1.1rem;
+        font-size: 14px;
+    }
+    .card-lists .item-text .num{
+        color: #4f8bdc;
+    }
+    .card-lists li{
+        padding: .5rem 0;
+        border-bottom: 1px solid #e7e7e7;
+    }
+    .card-lists li:last-child{
+        border-bottom: 0;
+    }
+</style>
+<div class="page page-current">
+    <div class="content">
+        {if $follow != 1}
+        <div class="list-block media-list" style="margin: 0; background: #1b1b20;">
+            <div class="item-content">
+                <div class="item-media">
+                    <img src="{$_W['account']['logo']}" width="50px" />
+                </div>
+                <div class="item-inner" style="border: 0; color: #fff;">
+                    <div class="item-title-row">
+                        <div class="item-title">欢迎访问{$_W['uniaccount']['name']}</div>
+                    </div>
+                    <div class="item-subtitle">点击关注我们哦~</div>
+                </div>
+                <div style="padding-right: 0.75rem;">
+                    <a href="javascript::;" class="button button-fill button-success follow">点击关注</a>
+                </div>
+            </div>
+        </div>
+        {/if}
+        <div id="banner-carousel" class="index-banner carousel slide"  data-ride="carousel"  data-interval="2000">
+            <!-- Indicators -->
+            <ol class="carousel-indicators">
+                {loop $banners $k $row}
+                <li data-target="#banner-carousel" data-slide-to="{$k}" {if $k==0} class="active" {/if}></li>
+                 {/loop}
+            </ol>
+            <div class="index-banner carousel-inner" role="listbox">
+                 {loop $banners $k $row}
+                    <div class="item {if $k ==0} active{/if}" >
+                        <img  src="{$_W['attachurl']}{$row['img']}" alt="...">
+                    </div>
+                 {/loop}
+        
+            </div>
+        </div>
+     
+        <div class="index-title">
+            <span>热门银行</span>
+        </div>
+        <div class="index-banks">
+            {loop $banks $row}
+            <a class="item external" href="{php echo $this->createMobileUrl('card',array('bid' => $row['id']))}">
+                <img src="{$_W['attachurl']}{$row['icon']}" />
+                <p class="text">{$row['name']}</p>
+            </a>
+            {/loop}
+        </div>
+        <div class="index-title">
+            <span>信用卡分类</span>
+        </div>
+        <div class="index-guide actions">
+            <div class="row no-gutter">
+                <div class="col-50">
+                    <a class="external" href="{php echo $this->createMobileUrl('bank')}">
+                        <img src="{$_W['siteroot']}/addons/wangdai_chaoshi/static/images/guide-1.png" />
+                        <p class="text">信用卡申请</p>
+                    </a>
+                </div>
+                <div class="col-50">
+                    <a class="external" href="{php echo $this->createMobileUrl('strate')}">
+                        <img src="{$_W['siteroot']}/addons/wangdai_chaoshi/static/images/guide-2.png" />
+                        <p class="text">办卡攻略</p>
+                    </a>
+                </div>
+                <div class="col-50">
+                    <a class="external" href="{php echo $this->createMobileUrl('query')}">
+                        <img src="{$_W['siteroot']}/addons/wangdai_chaoshi/static/images/guide-3.png" />
+                        <p class="text">办卡进度查询</p>
+                    </a>
+                </div>
+                <div class="col-50">
+                    <a class="external" href="{php echo $this->createMobileUrl('vip')}">
+                        <img src="{$_W['siteroot']}/addons/wangdai_chaoshi/static/images/guide-4.png" />
+                        <p class="text">我要赚钱</p>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="index-title">
+            <span>推荐信用卡</span>
+        </div>
+        <div class="list-block list-border-none no-margin card-lists">
+            <ul>
+                {loop $cards $row}
+                <li>
+                    <a href="{php echo $this->createMobileUrl('card', array('op' => 'apply', 'cid' => $row['id']))}" class="item-link item-content external">
+                        <div class="item-media">
+                            <img src="{$_W['attachurl']}{$row['photo']}" style='width: 4rem;'>
+                        </div>
+                        <div class="item-inner">
+                            <div class="item-title">{$row['title']}</div>
+                            <div class="item-text color-gray">{$row['desc']}</div>
+                            <!--<div class="item-text color-gray"><span class="num">{$row['num']}</span>人已申请</div>-->
+                        </div>
+                    </a>
+                </li>
+                {/loop}
+            </ul>
+        </div>
+
+        <div style="height: 3rem"></div>
+
+    </div>
+    <nav class="bar bar-tab">
+        <a class="tab-item external active" href="{php echo $this->createMobileUrl('index')}">
+            <span class="icon mdi mdi-home"></span>
+            <span class="tab-label">办卡</span>
+        </a>
+        <a class="tab-item external" href="{php echo $this->createMobileUrl('lend')}">
+            <span class="icon mdi mdi-layers"></span>
+            <span class="tab-label">用钱</span>
+        </a>
+        <a class="tab-item external" href="{php echo $this->createMobileUrl('news')}">
+            <span class="icon mdi mdi-file-document"></span>
+            <span class="tab-label">资讯</span>
+        </a>
+        <a class="tab-item external" href="{php echo $this->createMobileUrl('user')}">
+            <span class="icon mdi mdi-account-circle"></span>
+            <span class="tab-label">我的</span>
+        </a>
+    </nav>
+</div>
+<div class="modal-overlay"></div>
+<script src="{$_W['siteroot']}/addons/wangdai_chaoshi/static/js/jquery.js"></script>
+<script src="{$_W['siteroot']}/addons/wangdai_chaoshi/static/js/light7.js"></script>
+<script src="{$_W['siteroot']}/addons/wangdai_chaoshi/static/js/bootstrap.min.js"></script>
+<script src="{$_W['siteroot']}/addons/wangdai_chaoshi/static/js/common.js?v={$_W['timestamp']}"></script>
+{php echo register_jssdk(false);}
+<script>
+    wx.ready(function () {
+        sharedata = {
+            title: "{$config['share_title']}",
+            desc: "{$config['share_desc']}",
+            link: "{$_W['siteroot']}{php echo $this->createMobileUrl('index')}",
+            imgUrl: "{$_W['attachurl']}{$config['share_img']}",//本域链接
+        };
+        wx.onMenuShareAppMessage(sharedata);
+        wx.onMenuShareTimeline(sharedata);
+        wx.onMenuShareQQ(sharedata);
+        wx.onMenuShareQZone(sharedata);
+        wx.onMenuShareWeibo(sharedata);
+    });
+
+    $(document).on('click', '.follow', function () {
+        $('.modal-overlay').addClass('modal-overlay-visible');
+        {php $qrCode = $_W['account']['qrcode']}
+        $('body').append('<div class="modal modal-no-buttons modal-out" style="margin-top: -155px;display: block"><div class="modal-inner"><div class="modal-title">长按二维码扫描关注</div><div class="modal-text"><img src="{$qrCode}" width="100%"></div></div></div>');
+        setTimeout(function () {
+            $('.modal.modal-no-buttons').addClass('modal-in');
+        }, 100)
+        $('.modal.modal-no-buttons').removeClass('modal-out');
+    })
+</script>
+</body>
+</html>

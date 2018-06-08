@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>{$config['title']}</title>
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1">
+    <link rel="shortcut icon" href="{$_W['siteroot']}/addons/wangdai_chaoshi/static/images/favicon.ico">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="stylesheet" href="{$_W['siteroot']}/addons/wangdai_chaoshi/static/css/lend/index.css">
+    <link rel="stylesheet" href="{$_W['siteroot']}/addons/wangdai_chaoshi/static/css/lend/apple.css">
+    <link rel="stylesheet" href="{$_W['siteroot']}/addons/wangdai_chaoshi/static/css/icon.css">
+    <link rel="stylesheet" href="{$_W['siteroot']}/addons/wangdai_chaoshi/static/css/bootstrap.css">
+    <link rel="stylesheet" href="{$_W['siteroot']}/addons/wangdai_chaoshi/static/css/style.css?v={$_W['timestamp']}">
+    <link rel="stylesheet" href="{$_W['siteroot']}/addons/wangdai_chaoshi/static/css/light7.css">
+    <script src="{$_W['siteroot']}/addons/wangdai_chaoshi/static/js/vue.js"></script>
+    <script src="{$_W['siteroot']}/addons/wangdai_chaoshi/static/js/jquery.js"></script>
+    <script src="{$_W['siteroot']}/addons/wangdai_chaoshi/static/js/light7.js"></script>
+    <script src="{$_W['siteroot']}/addons/wangdai_chaoshi/static/js/bootstrap.min.js"></script>
+</head>
+<style>
+    span {
+        font-size: 13px !important;
+    }
+
+    .money_content {
+        background: #f5f4f4;
+    }
+
+    .money_content .recommend_tab {
+        width: 100%;
+        padding: 35px 15px;
+    }
+
+    .money_content .recommend_tab a {
+        width: 24%;
+        height: 45px;
+        margin: 1%;
+    }
+
+    .money_content .recommend_litab {
+        height: 36px;
+    }
+
+    .money_content .recommend_litab_li span {
+        height: 25px;
+    }
+
+    .money_content .recommend_litab_li span.on {
+        border-bottom: 2px solid #1B89F8;
+        color: #1B89F8;
+    }
+
+    .money_content .list_boxdiv {
+        padding: 10px;
+    }
+    .money_content .list_boxdiv:first-child {
+        padding: 10px;
+    }
+    .money_content .list_boxdiv {
+        padding-top: 0px;
+    }
+
+    .money_content .list_boxdiv:last-child {
+        margin-bottom: 47px;
+    }
+
+    .money_content .list_box {
+        padding: 10px;
+    }
+
+    .money_content .list_box .list_boxleft {
+        margin-bottom: 10px;
+    }
+
+    .money_content .list_box .list_boxleft img {
+        width: 30px !important;
+        height: 30px !important;
+        border-radius: 50% !important;
+        margin-right: 10px !important;
+    }
+
+    .money_content .list_box .list_boxleft .list_titles {
+        font-size: 16px;
+        width: 60%;
+    }
+
+    .money_content .list_box .list_text_red2 {
+        font-size: 16px;
+    }
+
+    .money_content .list_box .list_bomdiv {
+        padding-top: 20px;
+        margin-top: 8px;
+        padding-bottom: 10px;
+    }
+
+    .money_content .list_box .list_bomdiv .list_bomdiv_li {
+        height: 22px;
+        padding: 7px;
+    }
+
+    .money_content .list_box .list_bomdiv .list_bomdiv_li span, .recommend_text {
+        font-size: 12px !important;
+    }
+
+    .recommend_tab a {
+        border-width: 1px !important;
+        margin-top: 5px !important;
+    }
+
+    .recommend_litab_li span, .fz28 {
+        font-size: 14px;
+    }
+
+    .bar .icon {
+        font-size: 1rem !important;
+        line-height: 1.2rem !important;
+    }
+
+</style>
+<body>
+<div class="page page-current bg-white" id="app">
+    <div class="content money_content">
+        <div id="banner-carousel" class="carousel slide index-banner"  data-ride="carousel"  data-interval="2000">
+            <!-- Indicators -->
+            <ol class="carousel-indicators">
+                {loop $banners $k $row}
+                <li data-target="#banner-carousel" data-slide-to="{$k}" {if $k==0} class="active" {/if}></li>
+                 {/loop}
+            </ol>
+            <div class="index-banner carousel-inner" role="listbox">
+                 {loop $banners $k $row}
+                    <div class="item {if $k ==0} active{/if}" >
+                        <img  src="{$_W['attachurl']}{$row['img']}" alt="...">
+                    </div>
+                 {/loop}
+        
+            </div>
+        </div>
+        <div class="recommend_tab">
+            <a v-for="category in categories" @click="search.category = category.id, loadData()">
+                <span class="fz28" v-text="category.name"></span>
+                <span class="recommend_text">{{ category.money_min }}-{{ category.money_max }}</span>
+            </a>
+        </div>
+        <div class="recommend_litab">
+            <div class="recommend_litab_li" @click="search.type = 'hot', loadData()">
+                <span :class="{on:search.type == 'hot'}">热门推荐</span>
+            </div>
+            <div class="recommend_litab_li" @click="search.type = 'new', loadData()">
+                <span :class="{on:search.type == 'new'}">新品推荐</span>
+            </div>
+            <div class="recommend_litab_li" @click="search.type = 'all', loadData()">
+                <span :class="{on:search.type == 'all'}">网贷大全</span>
+            </div>
+        </div>
+
+        <div class="recommend_box">
+            <div class="list_boxdiv" v-for="item in lists" @click="window.location.href = item.url">
+                <div class="list_box">
+                    <div class="list_boxleft">
+                        <img class="list_img" :src="item.icon">
+                        <span class="list_titles">{{ item.title }}</span>
+                        <span class="list_text_Number">{{ item.apply_num }}人已申请</span>
+                    </div>
+                    <div class="list_div">
+                        <div class="list_div_text">
+                            <span class="list_text_red">{{ item.rate_type }}利率</span>
+                            <span class="list_text_red2">{{ item.rate }}％</span>
+                        </div>
+                        <div class="list_div_text">
+                            <span class="list_text_red">额度</span>
+                            <span class="list_text_red2">{{ item.quota_min }}-{{ item.quota_max }}元</span>
+                        </div>
+                        <div class="list_div_text">
+                            <span class="list_text_red">成功率</span>
+                            <span class="list_text_red2">{{ item.success_rate }}</span>
+                        </div>
+                    </div>
+                    <div class="list_bomdiv">
+                        <div class="list_bomdiv_li" v-for="trait in item.traits">
+                            <span class="list_bomdiv_litext">{{ trait }}</span>
+                        </div>
+                    </div>
+                </div>
+                <!--<img class="recommend_img" :src="'/wx/xianjinjisuda/images/' + current_product_type + '.png'"-->
+                <!--v-if="index<3">-->
+            </div>
+        </div>
+
+    </div>
+    <nav class="bar bar-tab">
+        <a class="tab-item external" href="{php echo $this->createMobileUrl('index')}">
+            <span class="icon mdi mdi-home"></span>
+            <span class="tab-label">办卡</span>
+        </a>
+        <a class="tab-item external active" href="{php echo $this->createMobileUrl('lend')}">
+            <span class="icon mdi mdi-layers"></span>
+            <span class="tab-label">用钱</span>
+        </a>
+        <a class="tab-item external" href="{php echo $this->createMobileUrl('news')}">
+            <span class="icon mdi mdi-file-document"></span>
+            <span class="tab-label">资讯</span>
+        </a>
+        <a class="tab-item external" href="{php echo $this->createMobileUrl('user')}">
+            <span class="icon mdi mdi-account-circle"></span>
+            <span class="tab-label">我的</span>
+        </a>
+    </nav>
+</div>
+
+<script src="{$_W['siteroot']}/addons/wangdai_chaoshi/static/js/common.js?v={$_W['timestamp']}"></script>
+{php echo register_jssdk(false);}
+<script>
+    var opts = {
+        el: '#app',
+        data: {
+            search: {
+                type: 'hot'
+            },
+            lists: [],
+            loading: false,
+            categories: {$categories}
+        },
+        created: function () {
+            this.loadData()
+        },
+        methods: {
+            loadData: function () {
+                var that = this
+                $.getJSON("{php echo $this->createMobileUrl('lend', array('op' => 'getData'))}", this.search, function (res) {
+                    console.log(res)
+                    that.lists = res
+                });
+            },
+        }
+    };
+
+    var vm = new Vue(opts);
+
+
+</script>
+<script>
+    wx.ready(function () {
+        sharedata = {
+            title: "{$config['share_title']}",
+            desc: "{$config['share_desc']}",
+            link: "{$_W['siteroot']}{php echo $this->createMobileUrl('index')}",
+            imgUrl: "{$_W['attachurl']}{$config['share_img']}",//本域链接
+        };
+        wx.onMenuShareAppMessage(sharedata);
+        wx.onMenuShareTimeline(sharedata);
+        wx.onMenuShareQQ(sharedata);
+        wx.onMenuShareQZone(sharedata);
+        wx.onMenuShareWeibo(sharedata);
+    });
+</script>
+</body>
+</html>

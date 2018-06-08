@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<title>{$config['title']}用户中心</title>
+		<meta name="viewport" content="initial-scale=1, maximum-scale=1">
+		<link rel="shortcut icon" href="{$_W['siteroot']}/addons/wangdai_chaoshi/static/images/favicon.ico">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<link rel="stylesheet" href="{$_W['siteroot']}/addons/wangdai_chaoshi/static/css/light7.css">
+		<link rel="stylesheet" href="{$_W['siteroot']}/addons/wangdai_chaoshi/static/css/icon.css">
+		<link rel="stylesheet" href="{$_W['siteroot']}/addons/wangdai_chaoshi/static/css/icon/iconfont.css">
+		<link rel="stylesheet" href="{$_W['siteroot']}/addons/wangdai_chaoshi/static/css/style.css?v={$_W['timestamp']}">
+	</head>
+
+	<body>
+	<style>
+		/*.user-guide .material-icons{*/
+			/*font-size: 1.8rem;*/
+			/*line-height: 1.5;*/
+		/*}*/
+		.user-guide img{
+			width: 40px;
+		}
+		.user-guide{
+			margin-bottom: 3rem;
+		}
+	</style>
+		<div class="page page-current">
+			<div class="content">
+
+<!-- 				{if $follow != 1}
+					<div class="list-block media-list" style="margin: 0; background: #1b1b20;">
+						<div class="item-content">
+							<div class="item-media">
+								<img src="{$_W['account']['logo']}" width="50px"/>
+							</div>
+							<div class="item-inner" style="border: 0; color: #fff;">
+								<div class="item-title-row">
+									<div class="item-title">欢迎访问{$_W['uniaccount']['name']}</div>
+								</div>
+								<div class="item-subtitle">点击关注我们哦~</div>
+							</div>
+							<div style="padding-right: .75rem;">
+								<a href="javascript::;" class="button button-fill button-success follow">点击关注</a>
+							</div>
+						</div>
+					</div>
+				{/if} -->
+				<div class="user-top">
+					<div class="avatar">
+						<img src="{$_W['fans']['avatar']}" />
+					</div>
+					<div class="info" style="padding-left: 0.5rem;">
+						<h3>{$_W['fans']['nickname']}</h3>
+						<p>
+							会员等级:{if $user['group'] != 0}{$group['name']}{else}普通会员{/if}
+							<a class="vip external" href="{php echo $this->createMobileUrl('vip')}">升级会员</a>
+							
+						</p>
+						<?php $useridnum=80000+$user['id'];?>
+						<p>用户ID：{$useridnum}</p>
+						<p>推荐人：{if $user['leader1']==0}无{else}{php echo $this->user($user['leader1'])['name']}{/if}</p>
+					</div>
+					 
+				</div>
+
+				<div class="user-guide">
+					<!-- <a class="external" href="{php echo $this->createMobileUrl('bank')}">
+						<img src="{$_W['siteroot']}/addons/wangdai_chaoshi/static/images/guide-1.png" />
+						<p class="text">信用卡申请</p>
+					</a>
+					<a class="external" href="{php echo $this->createMobileUrl('strate')}">
+						<img src="{$_W['siteroot']}/addons/wangdai_chaoshi/static/images/guide-2.png" />
+						<p class="text">办卡攻略</p>
+					</a>
+					<a class="external" href="{php echo $this->createMobileUrl('query')}">
+						<img src="{$_W['siteroot']}/addons/wangdai_chaoshi/static/images/guide-3.png" />
+						<p class="text">办卡进度查询</p>
+					</a> -->
+					<!-- <a class="external zhanghu" href="{php echo $this->createMobileUrl('user',array('op' => 'account'))}">
+						<i class="icon iconfont icon-withdrawal"></i>
+						<p>我的账户</p>
+					</a> -->
+
+					<a class="external account" href="javascrpt:void(0)">
+						<!--<span class="icon mdi mdi-marker-check"></span>-->
+						<i class="icon iconfont icon-withdrawal"></i>
+						<p>我的账户</p>
+					</a>
+					<!-- <a class="external" href="{php echo $this->createMobileUrl('user',array('op' => 'record'))}">
+						<i class="icon iconfont icon-apply"></i>
+						<p>我的申请记录</p>
+					</a> -->
+					<a class="external" href="{php echo $this->createMobileUrl('money')}">
+					<i class="icon iconfont icon-zhuanqian"></i>
+					<p>在线客服</p>
+					</a>
+					<!--<a class="external" href="{php echo $this->createMobileUrl('user',array('op' => 'logs'))}">-->
+						<!--<i class="icon iconfont icon-recommend"></i>-->
+						<!--<p>我的推荐记录</p>-->
+					<!--</a>-->
+					<a class="external" href="{php echo $this->createMobileUrl('user',array('op' => 'team'))}">
+						<i class="icon iconfont icon-team"></i>
+						<p>我的团队</p>
+					</a>
+					<!-- <a class="external" href="{php echo $this->createMobileUrl('user',array('op' => 'fan'))}">
+						<i class="icon iconfont icon-reward"></i>
+						<p>返佣记录</p>
+					</a>
+					<a class="external" href="{php echo $this->createMobileUrl('user',array('op' => 'cash'))}">
+						<i class="icon iconfont icon-withdrawals"></i>
+						<p>提现记录</p>
+					</a> -->
+				<!-- 	<a class="external" href="{php echo $this->createMobileUrl('user',array('op' => 'tocash'))}">
+						<i class="icon iconfont icon-withdrawal"></i>
+						<p>申请提现</p>
+					</a> -->
+					<a class="external" href="{php echo $this->createMobileUrl('user',array('op' => 'profile'))}">
+						<i class="icon iconfont icon-message"></i>
+						<p>我的资料</p>
+					</a>
+					<a class="external erweima" href="javascrpt:void(0)">
+						<i class="icon iconfont icon-QR-code"></i>
+						<p>推广二维码</p>
+					</a>
+					<a class="external" href="{php echo $this->createMobileUrl('user',array('op' => 'invite'))}">
+						<i class="icon iconfont icon-invite"></i>
+						<p>邀请好友</p>
+					</a>
+					<!-- <a class="external" href="{php echo $this->createMobileUrl('user',array('op' => 'income'))}">
+						<i class="icon iconfont icon-reward"></i>
+						<p>收益明细</p>
+					</a>
+				 -->
+				
+					<a class="external loan" href="javascrpt:void(0)">
+						<i class="icon iconfont icon-reward"></i>
+						<p>线下贷款申请</p>
+					</a>
+					<a class="external customer" href="https://m.361chaxun.com/app/index.php?i=10&c=entry&m=ewei_shopv2&do=mobile&r=credits.protocol&mid=194591&posterid=7">
+						<i class="icon iconfont icon-team"></i>
+						<p>大数据查询</p>
+					</a>
+					<a class="external alertBtn" href="{php echo $this->createMobileUrl('user',array('op' => 'userprotocol'))}">
+						<i class="icon iconfont icon-message"></i>
+						<p>会员手册</p>
+					</a>
+				
+					
+				</div>
+			</div>
+            <nav class="bar bar-tab">
+                <a class="tab-item external" href="{php echo $this->createMobileUrl('index')}">
+                    <span class="icon mdi mdi-home"></span>
+                    <span class="tab-label">办卡</span>
+                </a>
+                <a class="tab-item external" href="{php echo $this->createMobileUrl('lend')}">
+                    <span class="icon mdi mdi-layers"></span>
+                    <span class="tab-label">用钱</span>
+                </a>
+				<a class="tab-item external" href="{php echo $this->createMobileUrl('news')}">
+					<span class="icon mdi mdi-file-document"></span>
+					<span class="tab-label">资讯</span>
+				</a>
+		     	<a class="tab-item external mine" href="{php echo $this->createMobileUrl('user')}">
+		            <span class="icon mdi mdi-account-circle"></span>
+		            <span class="tab-label">我的</span>
+		        </a>
+            </nav>
+		</div>
+		<div class="modal-overlay" id="risk-m" data-backdrop="static" aria-hidden="true" ></div>
+		<script src="{$_W['siteroot']}/addons/wangdai_chaoshi/static/js/jquery.js"></script>
+		<script src="{$_W['siteroot']}/addons/wangdai_chaoshi/static/js/light7.js"></script>
+		<script src="{$_W['siteroot']}/addons/wangdai_chaoshi/static/js/common.js?v={$_W['timestamp']}"></script>
+		{php echo register_jssdk(false);}
+		<script>
+			wx.ready(function () {
+		        sharedata = {
+		            title: "{$config['share_title']}",
+		            desc: "{$config['share_desc']}",
+		            link: "{$_W['siteroot']}{php echo $this->createMobileUrl('index')}",
+		            imgUrl: "{$_W['attachurl']}{$config['share_img']}",//本域链接
+		        };
+				wx.onMenuShareAppMessage(sharedata);
+				wx.onMenuShareTimeline(sharedata);
+				wx.onMenuShareQQ(sharedata);
+				wx.onMenuShareQZone(sharedata);
+				wx.onMenuShareWeibo(sharedata);
+			});
+			
+			{if $follow != 1}
+		  	$('.modal-overlay').addClass('modal-overlay-visible');
+	        {php $qrCode = $_W['account']['qrcode']}
+	        $('body').append('<div class="modal modal-no-buttons modal-out" style="margin-top: -155px;display: block"><div class="modal-inner"><div class="modal-title">长按二维码扫描关注</div><div class="modal-text"><img src="{$qrCode}" width="100%"></div></div></div>');
+	        setTimeout(function () {
+	            $('.modal.modal-no-buttons').addClass('modal-in');
+	        }, 100)
+	        $('.modal.modal-no-buttons').removeClass('modal-out');
+		
+			{else if !$verify}
+            $.modal({
+                title:  '提示',
+                text: '您的资料尚未完善，是否前去填写?',
+                buttons: [
+                    {
+                        text: '残忍拒绝',
+                        onClick: function() {
+                            window.history.go(-1)
+                        }
+                    },
+                    {
+                        text: '我要填写',
+                        onClick: function() {
+                            window.location.href = "{php echo $this->createMobileUrl('user', array('op'=>'profile'))}";
+                        }
+                    }
+                ]
+            });
+            {/if}
+            $('.erweima').click(function(){
+            	var user_group="{$user['group']}";
+            	if(user_group==0){
+            		alert('您还不是本站会员请升级');
+            		window.location.href="{php echo $this->createMobileUrl('vip')}";
+            	}else{
+            		window.location.href="{php echo $this->createMobileUrl('user',array('op' => 'qrcode'))}";
+            	}
+            });
+            $('.loan').click(function(){
+            	var user_group="{$user['group']}";
+            	if(user_group==0){
+            		alert('您还不是本站会员升级后才能查看');
+            		window.location.href="{php echo $this->createMobileUrl('vip')}";
+            	}else{
+            		window.location.href="{php echo $this->createMobileUrl('user',array('op' => 'loan'))}";
+            	}
+            });
+
+            $('.account').click(function(){
+            	var user_group="{$user['group']}";
+            	if(user_group==0){
+            		alert('您还不是本站会员升级后才能查看');
+            		window.location.href="{php echo $this->createMobileUrl('vip')}";
+            	}else{
+            		window.location.href="{php echo $this->createMobileUrl('user',array('op' => 'account'))}";
+            	}
+            });
+            $('.customer').click(function(){
+            	var user_group="{$user['group']}";
+            	if(user_group==0){
+            		alert('您还不是本站会员升级后才能查看');
+            		window.location.href="{php echo $this->createMobileUrl('vip')}";
+            	}else{
+            		window.location.href="{php echo $this->createMobileUrl('user',array('op' => 'customer'))}";
+            	}
+            });
+
+		            
+		</script>
+	</body>
+</html>

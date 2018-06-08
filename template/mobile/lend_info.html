@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>{$config['title']}</title>
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1">
+    <link rel="shortcut icon" href="{$_W['siteroot']}/addons/wangdai_chaoshi/static/images/favicon.ico">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+    <link rel="stylesheet" href="{$_W['siteroot']}/addons/wangdai_chaoshi/static/css/lend/apple.css">
+    <link rel="stylesheet" href="{$_W['siteroot']}/addons/wangdai_chaoshi/static/css/lend/index.css">
+    <script src="{$_W['siteroot']}/addons/wangdai_chaoshi/static/js/vue.js"></script>
+
+
+</head>
+<body style="background-color: #f2f3f7;">
+
+<div id="app" style="height: 100%;">
+
+
+    <!--title-->
+    <div class="header">
+        <div class="header_logo">
+            <div @click="backAction()" class="header_back"></div>
+            <span>贷款详情</span>
+        </div>
+    </div>
+    <div style="height:1rem;"></div>
+
+    <div class="details_top">
+        <div class="details_boxl">
+            <img class="details_img" src="{$_W['attachurl']}{$info['icon']}">
+        </div>
+        <div class="details_box">
+            <div class="details_box_bom">
+                <span class="details_text2">成功率：</span>
+                <span class="details_text1"> {$info['success_rate']}</span>
+            </div>
+            <div class="details_box_bom">
+                <span class="details_text2">申请人数：</span>
+                <span class="details_text1">{php echo $info['application_number'] + $info['true_click']}</span>
+            </div>
+            <span class="details_box_text">{$info['brief_introduction']}</span>
+        </div>
+    </div>
+    <div class="details_cen">
+        <div class="details_div">
+            <div class="details_div_li">
+                <img src="{$_W['siteroot']}/addons/wangdai_chaoshi/static/images/lend/details_lefticon_amount.png" class="details_div_lefticon">
+                <span class="fz24">贷款范围：</span>
+                <span class="details_div_text">{php echo (int)$info['quota_min']}-{php echo (int)$info['quota_max']}</span>
+
+            </div>
+            <div class="details_div_li">
+                <img src="{$_W['siteroot']}/addons/wangdai_chaoshi/static/images/lend/details_lefticon_time.png" class="details_div_lefticon">
+                <span class="fz24">贷款期限：</span>
+                <span class="details_div_text">{php echo $info['day_term_star'] ? : $info['month_term_star']}{$periodType}－{php echo $info['day_term_end'] ? : $info['month_term_end']}{$periodType}</span>
+            </div>
+        </div>
+        <div class="details_centop">
+            <div class="details_cenli">
+                <div class="details_cenli_box">
+                    <input class="details_ceninput" type="number" v-model="amount" max="{$info['quota_max']}" @blur="adjust()">
+                </div>
+                <span class="corner_text">元</span>
+            </div>
+            <div class="details_cenli">
+                <div class="details_cenli_box">
+                    <div class="details_ceninput">
+                        <span class="select_text">{{period}}</span>
+                        <select class="select_center color_171 fz38" name="cars" v-model="period" @blur="adjust()">
+                            <option v-for="v in product.period_range" :value="v">{{v}}</option>
+                        </select>
+                    </div>
+                    <img class="detai_downarrow" src="{$_W['siteroot']}/addons/wangdai_chaoshi/static/images/lend/detailpages_downarrow.png">
+                </div>
+                <span class="corner_text"> {$periodType}</span>
+            </div>
+        </div>
+        <div class="details_cenbom">
+            <div class="details_cenbli">
+                <span class="details_cenbli_text1"> {{unitRefund()}}元</span>
+                <span class="details_cenbli_text2">{$dailyInterestType}还款</span>
+                <div class="details_cenli_wire"></div>
+            </div>
+            <div class="details_cenbli">
+                <span class="details_cenbli_text1">{{totalInterest()}}元</span>
+                <span class="details_cenbli_text2">总利息</span>
+                <div class="details_cenli_wire"></div>
+            </div>
+            <div class="details_cenbli">
+                <span class="details_cenbli_text1">{php echo $info['daily_interest_rate'] ? :$info['annual_interest_rate'] }%</span>
+                <span class="details_cenbli_text2">{$dailyInterestType}利率</span>
+            </div>
+        </div>
+    </div>
+    <div class="details_li" v-if="hasTips()">
+        <div class="details_title"><span class="tit_tips">关键提醒</span></div>
+        <ul class="introduce_div">
+            <li class="details_boxli themeBorderColor themeColor" v-for="tip, index in product.tips">
+                <span>{{tip}}</span>
+            </li>
+        </ul>
+    </div>
+    <div class="details_li">
+        <div class="details_title"><span class="tit_tips">审核说明</span></div>
+        <div class="introduce_div">
+            <span class="details_boxli_text">1.审核方式：</span>
+            <span class="details_boxli_text"> {$info['audit_method']}</span>
+        </div>
+        <div class="introduce_div">
+            <span class="details_boxli_text">2.审核周期：</span>
+            <span class="details_boxli_text">{$info['audit_cycle']}</span>
+        </div>
+        <div class="introduce_div">
+            <span class="details_boxli_text">3.放款时间：</span>
+            <span class="details_boxli_text">{$info['lending_time']}</span>
+        </div>
+        <div class="introduce_div">
+            <span class="details_boxli_text">4.还款方式：</span>
+            <span class="details_boxli_text">{$info['repayment_method']}</span>
+        </div>
+    </div>
+    {if $info['application_process'] }
+    <div class="details_li">
+        <div class="details_title"><span class="tit_tips">申请流程</span></div>
+        <div class="introduce_div">
+            <span class="details_boxli_text"> {$info['application_process']}</span>
+        </div>
+    </div>
+    {/if}
+    {if $info['application_conditions'] }
+    <div class="details_li">
+        <div class="details_title"><span class="tit_tips">申请条件</span></div>
+        <div class="introduce_div">
+            <span class="details_boxli_text"> {$info['application_conditions']}</span>
+        </div>
+    </div>
+    {/if}
+    {if $info['detailed_introduction'] }
+    <div class="details_li">
+        <div class="details_title"><span class="tit_tips">详细介绍</span></div>
+        <div class="introduce_div">
+            <span class="details_boxli_text"> {$info['detailed_introduction']}</span>
+        </div>
+    </div>
+    {/if}
+    <div class="height1"></div>
+
+    <a class="details_but" href="{php echo $this->createMobileUrl('lend', array('op'=>'submit', 'id' => $info['id']))}">
+        <span>立即申请</span>
+    </a>
+
+    <script>
+        var opts = {
+            el: '#app',
+            data: {
+                id: 4444,
+                product: {
+                    "interest_min": {php echo $info['daily_interest_rate'] ? : $info['annual_interest_rate']},
+                    "period_range": {$periodRange},
+                },
+                amount: "{php echo (int)$info['quota_min']}",
+                period: "{php echo $info['day_term_star'] ? : $info['month_term_star']}",
+            },
+            methods: {
+                totalInterest: function () {
+                    var totalAmount = this.amount * (Math.pow((1 + this.product.interest_min / 100), this.period));
+                    var totalInterest = totalAmount - this.amount;
+                    return totalInterest.toFixed(1);
+                },
+
+                unitRefund: function () {
+                    if (this.period == 0 || this.amount == 0) {
+                        return 0;
+                    }
+                    var totalAmount = this.amount * (Math.pow((1 + this.product.interest_min / 100),
+                        this.period));
+
+                    var unitRefund = totalAmount / this.period;
+                    return unitRefund.toFixed(1);
+                },
+
+                getApplyFlow: function () {
+                    var i = 0;
+                    var res = '';
+                    if (undefined == this.product.apply_flow) {
+                        return res;
+                    }
+                    for (i = 0; i < this.product.apply_flow.length; i++) {
+                        res += (this.product.apply_flow)[i];
+                        if (i != this.product.apply_flow.length - 1) {
+                            res += ' > ';
+                        }
+                    }
+                    return res;
+                },
+
+
+                adjust: function (event) {
+                    this.unitRefund();
+                    this.totalInterest();
+                },
+
+                hasTips: function () {
+                    if (undefined == this.product.tips) {
+                        return false;
+                    }
+                    if (this.product.tips.length) {
+                        return true;
+                    }
+                    return false;
+                },
+                backAction: function (href) {
+                    window.history.back();
+                    return;
+                }
+            }
+        };
+
+
+        new Vue(opts)
+        // $(function () {
+        //     $(".select_center").change(function () {
+        //         var getVal = $(".select_center option:selected").text()
+        //         $(".select_text").text(getVal)
+        //     })
+        // })
+
+    </script>
+</div>
+
+</body>
+</html>

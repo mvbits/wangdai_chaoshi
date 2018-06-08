@@ -1,0 +1,90 @@
+.index-banner{
+	width:100%;
+	overflow: hidden;
+	line-height: 0;
+}
+.index-banner img{
+	width:100%;
+}
+
+.index-guide{
+	overflow: hidden;
+	width: 100%;
+	background:#fff;
+	padding: 0.5rem 0;
+	margin-bottom: 0.25rem;
+}
+.index-guide a{
+	display: block;
+	overflow: hidden;
+	text-align: center;
+	font-size: 0.65rem;
+	padding: 0.25rem;
+}
+.index-guide img{
+	width:50%;
+	margin:0.25rem;
+}
+.index-guide .text{
+	margin: 0 0 0.25rem 0;
+	color: #888;
+	width: 100%;
+	overflow: hidden;
+	height: 0.65rem;
+	line-height: 0.65rem;
+}
+
+.index-title{
+	height: 40px;
+	line-height: 40px;
+	padding: 0 0.5rem;
+	background:#fff;
+	border-bottom: 1px solid #EFEFEF;
+	font-size: 0.7rem;
+	position: relative;
+	font-weight: bold;
+}
+.index-title .rlink{
+	display: block;
+	position: absolute;
+	right: 0;
+	top: 0;
+	padding-right: 0.25rem;
+	color: #999999;
+	font-weight: normal;
+	font-size: 0.65rem;
+}
+.index-recom {
+	margin-bottom: 0.25rem;
+	padding: 0.5rem 0.25rem;
+	background: #fff;
+}
+.index-recom a{
+	display: block;
+	width: 100%;
+	line-height: 0;
+}
+.index-recom img{
+	width: 100%;
+}
+
+.index-banks{
+	overflow:hidden;
+	background:#fff;
+	padding: 0.25rem 0.25rem 2rem 0.25rem;
+}
+.index-banks .item{
+	display: block;
+	float: left;
+	width: 25%;
+	text-align: center;
+	padding:0.5rem 0.25rem;
+}
+.index-banks .item img{
+	width: 60%;
+}
+.index-banks .item .text{
+	margin: 0;
+	font-size: 0.65rem;
+	color: #888;
+}

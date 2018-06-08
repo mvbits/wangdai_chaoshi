@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<title>快办信用卡</title>
+        <link rel="stylesheet" href="{$_W['siteroot']}/addons/wangdai_chaoshi/static/app/css/framework7.ios.css">
+        <link rel="stylesheet" href="{$_W['siteroot']}/addons/wangdai_chaoshi/static/app/css/framework7.ios.colors.css">
+		<link rel="stylesheet" href="{$_W['siteroot']}/addons/wangdai_chaoshi/static/css/icon.css">
+		<link rel="stylesheet" href="{$_W['siteroot']}/addons/wangdai_chaoshi/static/app/css/app.css?t={$_W['timestamp']}">
+	</head>
+	<body>
+		<div class="statusbar-overlay"></div>
+
+		<div class="views tabs toolbar-through">
+			
+			<!--视图（主页）-->
+			<div id="view1" class="view tab view-main active">
+				<div class="navbar">
+					<div class="navbar-inner" data-page="index">
+						<div class="left"></div>
+						<div class="center sliding">{$config['title']}</div>
+						<div class="right"></div>
+					</div>
+					<div class="navbar-inner cached" data-page="banks">
+						<div class="left"></div>
+						<div class="center sliding">在线申请</div>
+						<div class="right"></div>
+					</div>
+				</div>
+
+
+
+				<div class="pages navbar-through toolbar-through">
+
+					<!--页面（银行）-->
+					<div data-page="banks" class="page">
+						<div class="page-content">	
+							11111
+						</div>
+					</div>
+					
+					
+					<!--页面（主页）-->
+					<div data-page="index" class="page">
+						<div class="page-content">
+							<div class="index-banner">
+								<img src="{$_W['attachurl']}{$config['banner']}" />
+							</div>
+							<div class="index-guide">
+								<div class="row no-gutter">
+									<div class="col-25">
+										<a href="#banks">
+											<img src="{$_W['siteroot']}/addons/wangdai_chaoshi/static/images/guide-1.png" />
+											<p class="text">信用卡申请</p>
+										</a>
+									</div>
+									<div class="col-25">
+										<a href="#banks">
+											<img src="{$_W['siteroot']}/addons/wangdai_chaoshi/static/images/guide-2.png" />
+											<p class="text">办卡攻略</p>
+										</a>
+									</div>
+									<div class="col-25">
+										<a href="#banks">
+											<img src="{$_W['siteroot']}/addons/wangdai_chaoshi/static/images/guide-3.png" />
+											<p class="text">办卡进度查询</p>
+										</a>
+									</div>
+									<div class="col-25">
+										<a href="#view5">
+											<img src="{$_W['siteroot']}/addons/wangdai_chaoshi/static/images/guide-4.png" />
+											<p class="text">我要赚钱</p>
+										</a>
+									</div>
+								</div>
+							</div>
+
+							<div class="index-title">
+								达人推荐
+								<a class="rlink external" href="{php echo $this->createMobileUrl('card',array('op' => 'index'))}">更多...</a>
+							</div>
+							<div class="index-recom">
+								<div class="row no-gutter">
+									<div class="col-50">
+										<a class="recom external recom-l" href="{$config['link1']}">
+											<img src="{$_W['attachurl']}{$config['recom1']}" />
+										</a>
+									</div>
+									<div class="col-50">
+										<a class="recom external recom-r" href="{$config['link2']}">
+											<img src="{$_W['attachurl']}{$config['recom2']}" />
+										</a>
+										<a class="recom external recom-r" href="{$config['link3']}">
+											<img src="{$_W['attachurl']}{$config['recom3']}" />
+										</a>
+									</div>
+								</div>
+							</div>
+							
+							<div class="index-title">
+								银行中心				
+							</div>
+							<div class="index-banks">
+								{loop $banks $row}
+								<a class="item external" href="{php echo $this->createMobileUrl('apply',array('id' => $row['id']))}">
+									<img src="{$_W['attachurl']}{$row['icon']}" />
+									<p class="text">{$row['name']}</p>
+								</a>
+								{/loop}
+							</div>
+						</div>
+					</div>
+					
+
+					
+					
+				</div>
+			</div>
+			
+			<div id="view2" class="view tab">
+				<div class="navbar">
+					<div class="navbar-inner">
+						<div class="left"></div>
+						<div class="center sliding">快办信用卡2</div>
+						<div class="right"></div>
+					</div>
+				</div>
+
+				<div class="pages navbar-through toolbar-through">
+					<div data-page="index" class="page">
+						<div class="page-content">
+
+						</div>
+					</div>
+				</div>
+			</div>
+			
+			<div id="view3" class="view tab">
+				<div class="navbar">
+					<div class="navbar-inner">
+						<div class="left"></div>
+						<div class="center sliding">快办信用卡3</div>
+						<div class="right"></div>
+					</div>
+				</div>
+
+				<div class="pages navbar-through toolbar-through">
+					<div data-page="index" class="page">
+						<div class="page-content">
+
+						</div>
+					</div>
+				</div>
+			</div>
+			
+			<div id="view4" class="view tab">
+				<div class="navbar">
+					<div class="navbar-inner">
+						<div class="left"></div>
+						<div class="center sliding">快办信用卡4</div>
+						<div class="right"></div>
+					</div>
+				</div>
+
+				<div class="pages navbar-through toolbar-through">
+					<div data-page="index" class="page">
+						<div class="page-content">
+
+						</div>
+					</div>
+				</div>
+			</div>
+			
+			<div id="view5" class="view tab">
+				<div class="navbar">
+					<div class="navbar-inner">
+						<div class="left"></div>
+						<div class="center sliding">快办信用卡5</div>
+						<div class="right"></div>
+					</div>
+				</div>
+
+				<div class="pages navbar-through toolbar-through">
+					<div data-page="index" class="page">
+						<div class="page-content">
+
+						</div>
+					</div>
+				</div>
+			</div>
+
+
+			<div class="toolbar tabbar tabbar-labels">
+			    <div class="toolbar-inner">
+			        <a href="#view1" class="tab-link active">
+			            <i class="icon mdi mdi-home mdi-24px"></i>
+			            <span class="tabbar-label">首页</span>
+			        </a>
+			        <a href="#view2" class="tab-link">
+			            <i class="icon mdi mdi-file-document mdi-24px"></i>
+			            <span class="tabbar-label">资讯</span>
+			        </a>
+			        <a href="#view3" class="tab-link">
+			            <i class="icon mdi mdi-credit-card mdi-24px"></i>
+			            <span class="tabbar-label">卡库</span>
+			        </a>
+			        <a href="#view4" class="tab-link">
+			            <i class="icon mdi mdi-diamond mdi-24px"></i>
+			            <span class="tabbar-label">会员</span>
+			        </a>
+			        <a href="#view5" class="tab-link">
+			            <i class="icon mdi mdi-account-circle mdi-24px"></i>
+			            <span class="tabbar-label">我的</span>
+			        </a>
+			    </div>
+			</div>
+
+		</div>
+		
+		<script type="text/javascript" src="{$_W['siteroot']}/addons/wangdai_chaoshi/static/app/js/framework7.js"></script>
+		<script type="text/javascript" src="{$_W['siteroot']}/addons/wangdai_chaoshi/static/app/js/app.js"></script>
+		<script>
+			var myApp = new Framework7({
+		        pushState: true,
+		        swipePanel: 'left',
+		    });  
+            var $$ = Dom7;
+			var view1 = myApp.addView('#view1', {
+				dynamicNavbar: true
+			});
+			var view2 = myApp.addView("#view2");
+			var view3 = myApp.addView("#view3");
+			var view4 = myApp.addView("#view4");
+			var view5 = myApp.addView("#view5");
+			
+		</script>
+	</body>
+
+</html>

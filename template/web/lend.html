@@ -1,0 +1,531 @@
+{template 'common/header'}
+<style>
+    .main{
+        margin: 0 0 30px 0;
+    }
+</style>
+<ul class="nav nav-tabs">
+    <li {if $op == 'index'}class="active"{/if}><a href="{php echo $this->createWebUrl('lend', array('op' => 'index'))}">借贷模块</a></li>
+    <li><a href="{php echo $this->createWebUrl('category')}">分类管理</a></li>
+
+    
+</ul>
+{if $op == 'index'}
+<div class="pull-right">
+        <a href="{php echo $this->createWebUrl('lend', array('op' => 'post'))}"  class="btn btn-primary  we7-margin-left">+添加借贷</a>
+</div>
+<div class="main">
+    <div class="panel panel-default">
+        <div class="table-responsive panel-body">
+            <form action="" method="post" class="form-horizontal form" onsubmit="return formcheck(this)">
+                <table class="table table-hover" style="margin-top: 15px;">
+                    <thead class="navbar-inner">
+                    <tr>
+                        <th class="text-center">名称</th>
+                        <th class="text-center">图标</th>
+                        <th class="text-center">是否开启</th>
+                        <th class="text-center">排序</th>
+                        <th class="text-right">操作</th>
+                    </tr>
+                    </thead>
+                    <tbody id="level-list">
+                    {loop $list $row}
+                    <tr>
+                        <td class="text-center">{$row['title']}</td>
+                        <td class="text-center"><img src="{php echo $_W['attachurl']}{$row['icon']}" height="30px"/></td>
+                        <td class="text-center"><div att="{$row['id']}" {if $row['status'] ==1}class="switch switchOn status" {else} class="switch status"{/if}></div></td>
+                        <td class="text-center"><input name="sort" att="{$row['id']}" value="{$row['sort']}"></td>
+                        <td style="text-align: right;">
+                            <a class="btn btn-default btn-sm" href="{php echo $this->createWebUrl('lend', array('op' => 'post', 'id' => $row['id']))}" title="编辑"><i class="fa fa-pencil"></i></a>
+                            <a class="btn btn-default btn-sm" onclick="return confirm('是否要删除？');return false;" href="{php echo $this->createWebUrl('lend', array('op' => 'delete', 'id' => $row['id']))}" title="删除"><i class="fa fa-times"></i></a>
+                        </td>
+                    </tr>
+                    {/loop}
+                    <tr>
+                        <td colspan="5">
+                            <input type="hidden" name="token" value="{$_W['token']}"/>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+                <div class="pull-right">
+                    {$pager}
+                </div>
+            </form>
+        </div>
+    </div>
+  
+</div>
+<script>
+    $('.status').click(function(){
+        var id=$(this).attr('att');
+        var switchOn=$(this).hasClass('switchOn');
+        if(switchOn){
+            var status=1; 
+        }else{
+            var status=2;
+        }
+        var th=$(this);
+        var url="{php echo $this->createWebUrl('lend', array('op' => 'status'))}";
+         $.ajax({
+                url:url,
+                type:'post',
+                data:{id:id,status:status},
+                dataType:'json',
+                success:function(res){ 
+                    if(res.info==1){
+                        if(res.status==1){
+                            th.addClass('switchOn');
+                        }else{
+                             th.removeClass('switchOn');
+                        }
+                      
+                    }else{
+                       alert(res.msg);
+                       return false;
+                    }
+                }  
+        });
+    })
+    $('input[name="sort"]').blur(function(){
+        var id=$(this).attr('att');
+        var sort=$(this).val();
+        var url="{php echo $this->createWebUrl('lend', array('op' => 'sort'))}";
+        var th=$(this);
+         $.ajax({
+                url:url,
+                type:'post',
+                data:{id:id,sort:sort},
+                dataType:'json',
+                success:function(res){ 
+                    if(res.info==1){
+                        th.val(res.sort);
+                    }else{
+                       alert(res.msg);
+                       return false;
+                    }
+                }  
+        });
+    })
+</script>
+</div>
+{elseif $op == 'post'}
+<div class="main">
+    <form action="" method="post" class="form-horizontal form" >
+    <div class="panel panel-default">
+        <div class="panel-heading">借贷模块</div>
+        <div class="panel-body">   
+            <div class="form-group">
+                <label class="col-xs-12 col-sm-3 col-md-2 control-label">借贷标题</label>
+                <div class="col-sm-9">
+                    <input type="text" name="title" class="form-control" value="{$item['title']}" />
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-xs-12 col-sm-3 col-md-2 control-label">所属分类</label>
+                <div class="col-sm-9">
+                    {loop $category  $adv}
+                    <?php $arr_category_id=explode(',', $item['category_id'])?>
+                    <input type="checkbox" name="category_id[]"  value="{$adv['id']}"{if in_array($adv['id'],$arr_category_id)} checked="checked"{/if} />{$adv[name]}
+                    {/loop}
+                </div>
+            </div>
+             <div class="form-group">
+                <label class="col-xs-12 col-sm-3 col-md-2 control-label">借贷图标</label>
+                <div class="col-sm-9">
+                    {php echo tpl_form_field_image('icon',$item['icon'], '/web/resource/images/nopic.jpg', array('width' => 100, 'height' => 100))}
+                    <span class="help-block" style="color:#f00">建议尺寸100*100的PNG格式银行标志</span>
+                </div>
+            </div>   
+            <div class="form-group">
+                <label class="col-xs-12 col-sm-3 col-md-2 control-label">借贷地址</label>
+                <div class="col-sm-9">
+                    <input type="text" name="url" class="form-control" value="{$item['url']}">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-xs-12 col-sm-3 col-md-2 control-label">成功率</label>
+                <div class="col-sm-9">
+                    <input type="text" name="success_rate" class="form-control" value="{$item['success_rate']}" />
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-xs-12 col-sm-3 col-md-2 control-label">简介</label>
+                <div class="col-sm-9">
+                    <textarea name="brief_introduction"  class="form-control">{if empty($item['brief_introduction'])}5分钟评估额度，2小时内放款！{else}{$item['brief_introduction']}{/if}</textarea>
+                </div>
+            </div>
+            <div class="form-group">
+             <label class="col-xs-12 col-sm-3 col-md-2 control-label">利率</label>
+                <div  class="col-sm-9">
+                <div class="input-group">
+                    <div class="input-group-btn">
+                        <select name="lilv_type" id="lilv_type" class="form-control" style="
+                            width:100px;
+                            padding:3px 10px;
+                            border-top-right-radius: 5px;
+                            border-bottom-right-radius: 5px;
+                            appearance:none;
+                            -moz-appearance:none;
+                            -webkit-appearance:none;
+                            background-size:20%;
+                            cursor: pointer;
+                            ">
+                            <option value="1" {if $item['daily_interest_rate']}selected="true"{/if}>日利率</option>
+                            <option value="2" {if $item['annual_interest_rate']}selected="true"{/if}>月利率</option>
+                        </select>
+                    </div><!-- /btn-group -->
+                    
+                    <input type="text" name="interest_rate" class="form-control" placeholder="请输入利率"  {if $item['daily_interest_rate']}value="{$item['daily_interest_rate']}" {else if $item['annual_interest_rate']}value="{$item['annual_interest_rate']}" {/if}>
+                    <span class="input-group-addon">%</span>
+                </div>
+                </div>
+            </div>
+            <div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 col-lg-2 control-label">额度</label>
+                    <div class="col-xs-12 col-sm-8">
+                        <div class="input-group">
+                            <span class="input-group-addon">￥</span>
+                            <input type="number" name="quota_min" class="form-control" value="{$item['quota_min']}">
+                            <span class="input-group-addon" style="border: 0px;background-color: #ffffff;">至</span>
+                            <span class="input-group-addon">￥</span>
+                            <input type="number" name="quota_max" class="form-control" value="{$item['quota_max']}">
+                        </div>
+                    </div>
+             </div>
+             <div class="form-group">
+                <label class="col-xs-12 col-sm-3 col-md-2 col-lg-2 control-label">期限</label>
+                <div class="col-xs-12 col-sm-8">
+                    <div class="input-group">
+                       
+                        <input type="text" name="term_min" class="form-control" {if $item['day_term_star']} value="{$item['day_term_star']}"{else if $item['month_term_star']}value="{$item['month_term_star']}" {/if}>
+                        <div class="input-group-btn">
+                            <select name="term_min_start" class="form-control" style="
+                                width:80px;
+                                padding:3px 10px;
+                                border-top-right-radius: 5px;
+                                border-bottom-right-radius: 5px;
+                                appearance:none;
+                                -moz-appearance:none;
+                                -webkit-appearance:none;
+                                background-size:20%;
+                                cursor: pointer;
+                                ">
+                                <option value="1" {if $item['day_term_star']}selected="true"{/if}>天</option>
+                                <option value="2" {if $item['month_term_star']}selected="true"{/if}>月</option>
+                            </select>
+                        </div>
+                        <span class="input-group-addon" style="border: 0px;background-color: #ffffff;">至</span>
+                       
+                        <input type="text" name="term_max" class="form-control"  {if $item['day_term_end']}value="{$item['day_term_end']}"  {else if $item['month_term_end']}value="{$item['month_term_end']}"{/if}>
+                        <div class="input-group-btn">
+                            <select name="term_max_end" class="form-control" style="
+                                width:80px;
+                                padding:3px 10px;
+                                border-top-right-radius: 5px;
+                                border-bottom-right-radius: 5px;
+                                appearance:none;
+                                -moz-appearance:none;
+                                -webkit-appearance:none;
+                                background-size:20%;
+                                cursor: pointer;
+                                ">
+                                <option value="1"{if $item['day_term_end']}selected="true"{/if}>天</option>
+                                <option value="2"{if $item['month_term_end']}selected="true"{/if}>月</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+<!--                 <label class="col-xs-12 col-sm-3 col-md-2 control-label">分成金额</label>
+                <div class="col-sm-9">
+                    <input type="number" name="price" class="form-control price" value="{$item['price']}" />
+                </div>
+            </div> -->
+            <div class="form-group">
+             <label class="col-xs-12 col-sm-3 col-md-2 control-label">直推分佣</label>
+                <div  class="col-sm-9">
+                <div class="input-group">
+                    <div class="input-group-btn">
+                        <select name="lilv_price" id="lilv_price" class="form-control" style="
+                            width:100px;
+                            padding:3px 10px;
+                            border-top-right-radius: 5px;
+                            border-bottom-right-radius: 5px;
+                            appearance:none;
+                            -moz-appearance:none;
+                            -webkit-appearance:none;
+                            background-size:20%;
+                            cursor: pointer;
+                            ">
+                            <option value="1" {if $item['percent_price']}selected="true"{/if}>百分比</option>
+                            <option value="2" {if $item['price']}selected="true"{/if}>固定金额</option>
+                        </select>
+                    </div><!-- /btn-group -->
+             
+                    <input type="text" name="fencheng_price" class="form-control" placeholder="请输入分成"  {if $item['price']}value="{$item['price']}" {else if $item['percent_price']}value="{$item['percent_price']}" {/if}>
+                  <!--   <span class="input-group-addon">%</span> -->
+                </div>
+                </div>
+             
+            </div> 
+            <div class="form-group">
+             <label class="col-xs-12 col-sm-3 col-md-2 control-label">推荐分佣</label>
+                <div  class="col-sm-9">
+                <div class="input-group">
+                    <div class="input-group-btn">
+                        <select name="lilv_price_tow" id="lilv_price" class="form-control" style="
+                            width:100px;
+                            padding:3px 10px;
+                            border-top-right-radius: 5px;
+                            border-bottom-right-radius: 5px;
+                            appearance:none;
+                            -moz-appearance:none;
+                            -webkit-appearance:none;
+                            background-size:20%;
+                            cursor: pointer;
+                            ">
+                            <option value="1" {if $item['percent_price_tow']}selected="true"{/if}>百分比</option>
+                            <option value="2" {if $item['price_tow']}selected="true"{/if}>固定金额</option>
+                        </select>
+                    </div><!-- /btn-group -->      
+                    <input type="text" name="fencheng_price_tow" class="form-control" placeholder="请输入分成"  {if $item['price_tow']}value="{$item['price_tow']}" {else if $item['percent_price_tow']}value="{$item['percent_price_tow']}" {/if}>
+                  <!--   <span class="input-group-addon">%</span> -->
+                </div>
+                <div class="help-block"  style="color:#f00"> 
+                    固定金额设置格式：20|30|40 分别为：渠道经理间推|团队经理间推|城市经理间推（网贷分佣）<br>
+                    百分比设置格式：0.2|0.3|0.4 分别为：渠道经理间推|团队经理间推|城市经理间推（网贷分佣）
+                </div>
+                </div>
+    
+            </div>
+            <div class="form-group">
+                <label class="col-xs-12 col-sm-3 col-md-2 col-lg-2 control-label">审核方式</label>
+                <div class="col-xs-12 col-sm-8">
+                    <input type="text" name="audit_method" class="form-control" {if empty($item['audit_method'])}value="自动审批"{else}value="{$item['audit_method']}"{/if}>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-xs-12 col-sm-3 col-md-2 col-lg-2 control-label">审核周期</label>
+                <div class="col-xs-12 col-sm-8">
+                    <input type="text" name="audit_cycle" class="form-control"{if empty($item['audit_cycle'])}value="2小时之内"{else}value="{$item['audit_cycle']}"{/if}>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-xs-12 col-sm-3 col-md-2 col-lg-2 control-label">放款时间</label>
+                <div class="col-xs-12 col-sm-8">
+                    <input type="text" name="lending_time" class="form-control"{if empty($item['lending_time'])}value="最快5分钟"{else}value="{$item['lending_time']}"{/if}>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-xs-12 col-sm-3 col-md-2 col-lg-2 control-label">还款方式</label>
+                <div class="col-xs-12 col-sm-8">
+                <input type="text" name="repayment_method" class="form-control"{if empty($item['repayment_method'])}value="APP还款"{else}value="{$item['repayment_method']}"{/if}>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-xs-12 col-sm-3 col-md-2 col-lg-2 control-label">申请流程</label>
+                <div class="col-xs-12 col-sm-8">
+                    <input type="text" name="application_process" class="form-control" {if empty($item['application_process'])}value="注册>下载>实名认证>人脸识别>申请贷款>等待放款"{else}value="{$item['application_process']}"{/if}>
+                    <span class="help-block">如：完善个人信息&gt;提交借款申请&gt;等待审核&gt;审核通过放款</span>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-xs-12 col-sm-3 col-md-2 col-lg-2 control-label">申请条件</label>
+                <div class="col-xs-12 col-sm-8">
+                    <input type="text" name="application_conditions" class="form-control"{if empty($item['application_conditions'])}value="大于18岁的中国国民"{else}value="{$item['application_conditions']}"{/if} >
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-xs-12 col-sm-3 col-md-2 col-lg-2 control-label">详细介绍</label>
+                <div class="col-xs-12 col-sm-8">
+                    <textarea class="form-control" name="detailed_introduction" rows="2">{$item['detailed_introduction']}</textarea>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-xs-1 col-sm-3 col-md-2 col-lg-2 control-label">是否推荐</label>
+                <div class="col-xs-1 col-sm-8">
+                    <label>
+                       <input type="radio" name="recommend" value="0" {if $item['recommend']==0}checked="checked"{else}checked="checked" {/if}>不推荐
+                       <input type="radio" name="recommend" value="1" {if $item['recommend']==1}checked="checked" {/if}>推荐
+
+                    </label>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;是否最新
+                  <label>
+                        <input type="radio" name="is_new" value="0"{if $item['is_new']==0}checked="checked"{else}checked="checked"  {/if}>不是
+                        <input type="radio" name="is_new" value="1"{if $item['is_new']==1}checked="checked" {/if}>是
+                    </label>
+                </div>
+  
+            </div>
+            <div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 col-lg-2 control-label">申请人数</label>
+                    <div class="col-xs-12 col-sm-8">
+                        <input type="number" name="application_number" class="form-control" value="{$item['application_number']}">
+                    </div>
+            </div>
+            <div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 col-lg-2 control-label">网贷特点</label>
+                    <div class="col-xs-12 col-sm-8">
+                        <input type="text" name="trait" class="form-control" value="{$item['trait']}">
+                        <span class="help-block" style="color:#f00">请用逗号分割 例：（放款速度快，额度高）</span>
+                    </div>
+
+            </div>
+            <div class="form-group">
+                <label class="col-xs-12 col-sm-3 col-md-2 control-label">排列顺序</label>
+                <div class="col-sm-9">
+                    <input type="number" name="sort" class="form-control" value="{$item['sort']}" />
+                    <div class="help-block">数字越小越靠前</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-sm-12">
+            <input name="submit" type="submit" value="提交" class="btn btn-primary ">
+            <input type="hidden" name="token" value="{$_W['token']}"/>
+            <input type="hidden" name="id" value="{$item['id']}"/>
+        </div>
+    </div>
+    </form>
+</div>
+<script>
+    $('.recommend').click(function(){
+        var id=$(this).attr('att');
+        var switchOn=$(this).hasClass('switchOn');
+        if(switchOn){
+            var recommend=1; 
+        }else{
+            var recommend=2;
+        }
+        var th=$(this);
+        var url="{php echo $this->createWebUrl('lend', array('op' => 'recommend'))}";
+         $.ajax({
+                url:url,
+                type:'post',
+                data:{id:id,recommend:recommend},
+                dataType:'json',
+                success:function(res){ 
+                    if(res.info==1){
+                        if(res.recommend==1){
+                            th.addClass('switchOn');
+                        }else{
+                             th.removeClass('switchOn');
+                        }
+                      
+                    }else{
+                       alert(res.msg);
+                       return false;
+                    }
+                }  
+        });
+    })
+    $('.is_new').click(function(){
+        var id=$(this).attr('att');
+        var switchOn=$(this).hasClass('switchOn');
+        if(switchOn){
+            var is_new=1; 
+        }else{
+            var is_new=2;
+        }
+        var th=$(this);
+        var url="{php echo $this->createWebUrl('lend', array('op' => 'is_new'))}";
+         $.ajax({
+                url:url,
+                type:'post',
+                data:{id:id,is_new:is_new},
+                dataType:'json',
+                success:function(res){ 
+                    if(res.info==1){
+                        if(res.is_new==1){
+                            th.addClass('switchOn');
+                        }else{
+                             th.removeClass('switchOn');
+                        }
+                      
+                    }else{
+                       alert(res.msg);
+                       return false;
+                    }
+                }  
+        });
+    })
+
+    require(['jquery', 'util'], function($, util){
+    $(function(){
+        $('form').submit(function(){
+           var title=$("[name='title']").val();
+            if(title==''||title==null){
+                util.message('请填写借贷标题');
+                return false;
+            }            
+            var success_rate=$("[name='success_rate']").val();
+            if(success_rate==''||success_rate==null){
+                util.message('请填写成功率');
+                return false;
+            }
+           var price=$("[name='fencheng_price']").val();
+            if(price==''||price==null){
+                util.message('请填写分层金额');
+                return false;
+            }
+            
+            var quota_min=$("[name='quota_min']").val();
+            if(quota_min==''||quota_min==null){
+                util.message('请填写额度最小值');
+                return false;
+            }
+            var quota_max=$("[name='quota_max']").val();
+            if(quota_max==''||quota_max==null){
+                util.message('请填写额度最大值');
+                return false;
+            }
+
+            
+           var url=$("[name='url']").val();
+            if(url==''||url==null){
+                util.message('请填写借贷地址');
+                return false;
+            }
+            var audit_method=$("[name='audit_method']").val();
+            if(audit_method==''||audit_method==null){
+                util.message('请填写审核方式');
+                return false;
+            }
+            var audit_cycle=$("[name='audit_cycle']").val();
+            if(audit_cycle==''||audit_cycle==null){
+                util.message('请填写审核周期');
+                return false;
+            }
+           var lending_time=$("[name='lending_time']").val();
+            if(lending_time==''||lending_time==null){
+                util.message('请填写放款时间');
+                return false;
+            }
+            var interest_rate=$("[name='interest_rate']").val();
+            if(interest_rate==''||interest_rate==null){
+                util.message('请填写利率');
+                return false;
+            }
+            var term_min=$("[name='term_min']").val();
+            if(term_min==''||term_min==null){
+                util.message('请填写最小期限');
+                return false;
+            }
+            var term_max=$("[name='term_max']").val();
+            if(term_max==''||term_maxn==null){
+                util.message('请填写最大期限');
+                return false;
+            }
+            
+        });
+
+    });
+
+});
+</script>
+{/if}
+
+{template 'common/footer'}

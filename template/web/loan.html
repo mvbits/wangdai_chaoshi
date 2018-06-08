@@ -1,0 +1,182 @@
+{template 'common/header'}
+<style>
+    .main{
+        margin: 0 0 30px 0;
+    }
+</style>
+<ul class="nav nav-tabs">
+    <li {if $operation == 'index'}class="active"{/if}><a href="{php echo $this->createWebUrl('loan', array('op' => 'index'))}">线下贷款申请管理</a></li>
+</ul>
+{if $op == 'index'}
+<div class="main">
+    <div class="panel panel-default">
+        <div class="table-responsive panel-body">
+            <form action="" method="post" class="form-horizontal form" onsubmit="return formcheck(this)">
+                <table class="table table-hover" style="margin-top: 15px;">
+                    <thead class="navbar-inner">
+                    <tr>
+                        <th class="text-center">姓名</th>
+                        <th class="text-center">联系电话</th>
+                        <th class="text-center">身份证号码</th>
+                        <th class="text-center">工作单位</th>
+                        <th class="text-center">需求额度</th>
+                        <th>创建时间</th>
+                        <th class="text-right">操作</th>
+                    </tr>
+                    </thead>
+                    <tbody id="level-list">
+                    {loop $list $row}
+                    <tr>
+                        <td class="text-center">{$row['name']}</td>
+                        <td class="text-center">{$row['phone']}</td>
+                        <td class="text-center">{$row['card']}</td>
+                        <td class="text-center">{$row['work']}</td>
+                        <td class="text-center">{$row['quota']}</td>
+                        <td class="text-center">{php echo date('Y-m-d H:i',$row['createtime']);}</td>
+                        <td class="text-center">
+                            <a class="btn btn-default btn-sm" onclick="return confirm('是否要删除？');return false;" href="{php echo $this->createWebUrl('loan', array('op' => 'delete', 'id' => $row['id']))}" title="删除"><i class="fa fa-times"></i></a>
+                            <a class="btn btn-default btn-sm" href="{php echo $this->createWebUrl('loan', array('op' => 'info', 'id' => $row['id']))}" title="详情"><i class="fa fa-pencil"></i></a>
+                            {if $row['status'] ==1}
+                                <a class="btn btn-success btn-sm" href="{php echo $this->createWebUrl('loan', array('op' => 'confirm', 'id' => $row['id']))}" title="通过"><i class="fa fa-check"></i></a>
+                            {/if}
+                            {if $row['status']==1&&$row['status']!=3}
+                            <a class="btn btn-warning btn-sm" href="{php echo $this->createWebUrl('loan', array('op' => 'reject', 'id' => $row['id']))}" title="驳回"><i class="fa fa-reply"></i></a>
+                            {/if}
+                            {if  $row['status']==3}
+                                 &nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;-----
+                            {/if}
+                        </td>
+                    </tr>
+                    {/loop}
+                    <tr>
+                        <td colspan="5">
+                            <input type="hidden" name="token" value="{$_W['token']}"/>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+                {$pager}
+            </form>
+        </div>
+    </div>
+    
+
+</div>
+</div>
+{elseif $op == 'info'}
+<div class="main">
+    <form action="" method="post" class="form-horizontal form" >
+    <div class="panel panel-default">
+        <div class="panel-heading">线下贷款申请详情 </div>
+        <div class="panel-body">   
+            <div class="form-group">
+                <label class="col-xs-12 col-sm-3 col-md-2 control-label">用户名</label>
+                <div class="col-sm-9">
+                    <input type="text" name="data[name]" class="form-control names" value="{$list['name']}" readonly="readonly" />
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-xs-12 col-sm-3 col-md-2 control-label">电话</label>
+                <div class="col-sm-9">
+                    <input type="text" name="data[phone]" class="form-control price" value="{$list['phone']}" readonly="readonly" />
+                </div>
+            </div>  
+             <div class="form-group">
+                <label class="col-xs-12 col-sm-3 col-md-2 control-label">推荐人</label>
+                <div class="col-sm-9">
+                    <input type="text" name="data[username]" class="form-control price" value="{$list['username']}" readonly="readonly" />
+                </div>
+            </div>   
+            <div class="form-group">
+                <label class="col-xs-12 col-sm-3 col-md-2 control-label">身份证</label>
+                <div class="col-sm-9">
+                    <input type="text" name="data[card]" class="form-control price" value="{$list['card']}" readonly="readonly" />
+                </div>
+            </div>  
+            <div class="form-group">
+                <label class="col-xs-12 col-sm-3 col-md-2 control-label">家庭地址</label>
+                <div class="col-sm-9">
+                    <input type="text" name="data[address]" class="form-control price" value="{$list['address']}" readonly="readonly" />
+                </div>
+            </div> 
+            <div class="form-group">
+                <label class="col-xs-12 col-sm-3 col-md-2 control-label">详细地址</label>
+                <div class="col-sm-9">
+                    <input type="text" name="data[detailed_address]" class="form-control price" value="{$list['detailed_address']}" readonly="readonly" />
+                </div>
+            </div>  
+            <div class="form-group">
+                <label class="col-xs-12 col-sm-3 col-md-2 control-label">工作单位</label>
+                <div class="col-sm-9">
+                    <input type="text" name="data[work]" class="form-control price" value="{$list['work']}" readonly="readonly" />
+                </div>
+            </div>  
+            <div class="form-group">
+                <label class="col-xs-12 col-sm-3 col-md-2 control-label">需求额度</label>
+                <div class="col-sm-9">
+                    <input type="text" name="data[quota]" class="form-control price" value="{$list['quota']}" readonly="readonly" />
+                </div>
+            </div>  
+
+           <div class="form-group">
+                <label class="col-xs-12 col-sm-3 col-md-2 control-label">工资发放形式</label>
+                <div class="col-sm-9">
+                {if $list['wages']==1}
+                      <input type="text" name="data[wages]" class="form-control price" value="打卡" readonly="readonly" />
+                {else}
+                    <input type="text" name="data[wages]" class="form-control price" value="现金" readonly="readonly" />
+                {/if}
+                </div>
+            </div> 
+             <div class="form-group">
+                <label class="col-xs-12 col-sm-3 col-md-2 control-label">是否有车</label>
+                <div class="col-sm-9">
+                    {if $list['vehicle']==1}
+                    <input type="text" name="data[vehicle]" class="form-control price" value="没有" readonly="readonly" />
+                    {else}
+                        <input type="text" name="data[vehicle]" class="form-control price" value="有" readonly="readonly" />
+                    {/if}
+                </div>
+            </div> 
+
+             <div class="form-group">
+                <label class="col-xs-12 col-sm-3 col-md-2 control-label">是否有房</label>
+                <div class="col-sm-9">
+                    {if $list['room']==1}
+                    <input type="text" name="data[room]" class="form-control price" value="没有" readonly="readonly" />
+                    {else}
+                        <input type="text" name="data[room]" class="form-control price" value="有" readonly="readonly" />
+                    {/if}
+                </div>
+            </div> 
+             <div class="form-group">
+                <label class="col-xs-12 col-sm-3 col-md-2 control-label">是否有保单</label>
+                <div class="col-sm-9">
+                    {if $list['policy']==1}
+                    <input type="text" name="data[policy]" class="form-control price" value="没有" readonly="readonly" />
+                    {else}
+                        <input type="text" name="data[policy]" class="form-control price" value="有" readonly="readonly" />
+                    {/if}
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-xs-12 col-sm-3 col-md-2 control-label">审核状态</label>
+                <div class="col-sm-9">
+                    {if $list['status']==1}
+                    <input type="text" name="data[status]" class="form-control price" value="未审核" readonly="readonly" />
+                    {else if $list['status']==2}
+                   <input type="text" name="data[status]" class="form-control price" value="通过" readonly="readonly" />
+                    {else}
+                     <input type="text" name="data[status]" class="form-control price" value="驳回" readonly="readonly" />
+                    {/if}
+                </div>
+            </div>  
+        </div>
+    </div>
+
+    </form>
+</div>
+{/if}
+
+
+{template 'common/footer'}

@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<title>信用卡在线申请</title>
+		<meta name="viewport" content="initial-scale=1, maximum-scale=1">
+		<link rel="shortcut icon" href="{$_W['siteroot']}/addons/wangdai_chaoshi/static/images/favicon.ico">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<link rel="stylesheet" href="{$_W['siteroot']}/addons/wangdai_chaoshi/static/css/light7.css">
+		<link rel="stylesheet" href="{$_W['siteroot']}/addons/wangdai_chaoshi/static/css/icon.css">
+		<link rel="stylesheet" href="{$_W['siteroot']}/addons/wangdai_chaoshi/static/css/style.css?v={$_W['timestamp']}">
+	</head>
+
+	<body>
+		<div class="page page-current">
+			<div class="content">
+				<div class="apply-hd">
+					<h1>{$bank['name']}信用卡申请</h1>
+					<p class="text-center">
+						<img src="{$_W['attachurl']}{$bank['photo']}" style="width:180px;" /> 
+					</p>
+					<p>提醒：请真实填写您的申请材料，以便于卡片的审核和后期奖金发放！</p>
+				</div>
+				<div class="apply-bd">
+					<form action="{php echo $this->createMobileUrl('apply',array('id' => $bank['id'],'op'=>'submit'))}" method="post">
+					<div class="list-block">
+						<ul>
+							<li>
+								<div class="item-content">
+									<div class="item-inner">
+										<div class="item-title label">真实姓名</div>
+										<div class="item-input">
+											<input name="data[name]" type="text" placeholder="请输入姓名" />
+										</div>
+									</div>
+								</div>
+							</li>
+							<li>
+								<div class="item-content">
+									<div class="item-inner">
+										<div class="item-title label">手机号码</div>
+										<div class="item-input">
+											<input name="data[mobile]" type="number" pattern="\d*" placeholder="请输入手机号码" />
+										</div>
+									</div>
+								</div>
+							</li>
+						</ul>
+						<div class="content-block">
+							<input type="submit" name="submit" class="button button-big button-fill button-success" value="提交申请" />
+						</div>
+					</div>
+					</form>
+				</div>
+			</div>
+		</div>
+		<script src="{$_W['siteroot']}/addons/wangdai_chaoshi/static/js/jquery.js"></script>
+		<script src="{$_W['siteroot']}/addons/wangdai_chaoshi/static/js/light7.js"></script>
+		<script src="{$_W['siteroot']}/addons/wangdai_chaoshi/static/js/common.js?v={$_W['timestamp']}"></script>
+		{php echo register_jssdk(false);} 
+		<script>
+			wx.ready(function () {
+		        sharedata = {
+		            title: "{$config['share_title']}",
+		            desc: "{$config['share_desc']}",
+		            link: "{$_W['siteroot']}{php echo $this->createMobileUrl('index')}",
+		            imgUrl: "{$_W['attachurl']}{$config['share_img']}",//本域链接
+		        };
+				wx.onMenuShareAppMessage(sharedata);
+				wx.onMenuShareTimeline(sharedata);
+				wx.onMenuShareQQ(sharedata);
+				wx.onMenuShareQZone(sharedata);
+				wx.onMenuShareWeibo(sharedata);
+			});
+		</script>
+	</body>
+
+</html>

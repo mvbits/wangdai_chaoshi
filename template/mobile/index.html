@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<title>{$config['title']}</title>
+		<meta name="viewport" content="initial-scale=1, maximum-scale=1">
+		<link rel="shortcut icon" href="{$_W['siteroot']}/addons/wangdai_chaoshi/static/images/favicon.ico">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<link rel="stylesheet" href="{$_W['siteroot']}/addons/wangdai_chaoshi/static/css/light7.css">
+		<link rel="stylesheet" href="{$_W['siteroot']}/addons/wangdai_chaoshi/static/css/icon.css">
+		<link rel="stylesheet" href="{$_W['siteroot']}/addons/wangdai_chaoshi/static/css/style.css?v={$_W['timestamp']}">
+	</head>
+
+	<body>
+		<div class="page page-current">
+			<div class="content">
+				{if $follow != 1}
+					<div class="list-block media-list" style="margin: 0; background: #1b1b20;">
+						<div class="item-content">
+							<div class="item-media">
+								<img src="{$_W['account']['logo']}" width="50px"/>
+							</div>
+							<div class="item-inner" style="border: 0; color: #fff;">
+								<div class="item-title-row">
+									<div class="item-title">欢迎访问{$_W['uniaccount']['name']}</div>
+								</div>
+								<div class="item-subtitle">点击关注我们哦~</div>
+							</div>
+							<div style="padding-right: .75rem;">
+								<a href="javascript::;" class="button button-fill button-success follow">点击关注</a>
+							</div>
+						</div>
+					</div>
+				{/if}
+				<div class="index-banner">
+					<img src="{$_W['attachurl']}{$config['banner']}" />
+				</div>
+				<div class="index-guide">
+					<div class="row no-gutter">
+						<div class="col-25">
+							<a class="external" href="{php echo $this->createMobileUrl('bank')}">
+								<img src="{$_W['siteroot']}/addons/wangdai_chaoshi/static/images/guide-1.png" />
+								<p class="text">信用卡申请</p>
+							</a>
+						</div>
+						<div class="col-25">
+							<a class="external" href="{php echo $this->createMobileUrl('strate')}">
+								<img src="{$_W['siteroot']}/addons/wangdai_chaoshi/static/images/guide-2.png" />
+								<p class="text">办卡攻略</p>
+							</a>
+						</div>
+						<div class="col-25">
+							<a class="external" href="{php echo $this->createMobileUrl('query')}">
+								<img src="{$_W['siteroot']}/addons/wangdai_chaoshi/static/images/guide-3.png" />
+								<p class="text">办卡进度查询</p>
+							</a>
+						</div>
+						<div class="col-25">
+							<a class="external" href="{php echo $this->createMobileUrl('vip')}">
+								<img src="{$_W['siteroot']}/addons/wangdai_chaoshi/static/images/guide-4.png" />
+								<p class="text">我要赚钱</p>
+							</a>
+						</div>
+					</div>
+				</div>
+				
+				<div class="index-title">
+					达人推荐
+					<a class="rlink external" href="{php echo $this->createMobileUrl('card',array('op' => 'index'))}">更多...</a>
+				</div>
+				<div class="index-recom">
+					<div class="row no-gutter">
+						<div class="col-50">
+							<a class="recom external recom-l" href="{$config['link1']}">
+								<img src="{$_W['attachurl']}{$config['recom1']}" />
+							</a>
+						</div>
+						<div class="col-50">
+							<a class="recom external recom-r" href="{$config['link2']}">
+								<img src="{$_W['attachurl']}{$config['recom2']}" />
+							</a>
+							<a class="recom external recom-r" href="{$config['link3']}">
+								<img src="{$_W['attachurl']}{$config['recom3']}" />
+							</a>
+						</div>
+					</div>
+				</div>
+				
+				<div class="index-title">
+					银行中心				
+				</div>
+				<div class="index-banks">
+					{loop $banks $row}
+					<a class="item external" href="{php echo $this->createMobileUrl('apply',array('id' => $row['id']))}">
+						<img src="{$_W['attachurl']}{$row['icon']}" />
+						<p class="text">{$row['name']}</p>
+					</a>
+					{/loop}
+				</div>
+				
+			</div>
+			<nav class="bar bar-tab">
+				<a class="tab-item external active" href="{php echo $this->createMobileUrl('index')}">
+					<span class="icon mdi mdi-home"></span>
+					<span class="tab-label">办卡</span>
+				</a>
+				<a class="tab-item external" href="{php echo $this->createMobileUrl('lend')}">
+					<span class="icon mdi mdi-layers"></span>
+					<span class="tab-label">用钱</span>
+				</a>
+				<a class="tab-item external" href="{php echo $this->createMobileUrl('news')}">
+					<span class="icon mdi mdi-file-document"></span>
+					<span class="tab-label">资讯</span>
+				</a>
+		        <a class="tab-item external" href="{php echo $this->createMobileUrl('user')}">
+		            <span class="icon mdi mdi-account-circle"></span>
+		            <span class="tab-label">我的</span>
+		        </a>
+			</nav>
+		</div>
+		<div class="modal-overlay"></div>
+		<script src="{$_W['siteroot']}/addons/wangdai_chaoshi/static/js/jquery.js"></script>
+		<script src="{$_W['siteroot']}/addons/wangdai_chaoshi/static/js/light7.js"></script>
+		<script src="{$_W['siteroot']}/addons/wangdai_chaoshi/static/js/common.js?v={$_W['timestamp']}"></script>
+		{php echo register_jssdk(false);} 
+		<script>
+			wx.ready(function () {
+		        sharedata = {
+		            title: "{$config['share_title']}",
+		            desc: "{$config['share_desc']}",
+		            link: "{$_W['siteroot']}{php echo $this->createMobileUrl('index')}",
+		            imgUrl: "{$_W['attachurl']}{$config['share_img']}",//本域链接
+		        };
+				wx.onMenuShareAppMessage(sharedata);
+				wx.onMenuShareTimeline(sharedata);
+				wx.onMenuShareQQ(sharedata);
+				wx.onMenuShareQZone(sharedata);
+				wx.onMenuShareWeibo(sharedata);
+			});
+			
+			$(document).on('click','.follow',function(){
+				$('.modal-overlay').addClass('modal-overlay-visible');
+				{php $qrCode = $_W['account']['qrcode']}
+				$('body').append('<div class="modal modal-no-buttons modal-out" style="margin-top: -155px;display: block"><div class="modal-inner"><div class="modal-title">长按二维码扫描关注</div><div class="modal-text"><img src="{$qrCode}" width="100%"></div></div></div>');
+				setTimeout(function(){
+					$('.modal.modal-no-buttons').addClass('modal-in');
+				},100)
+				$('.modal.modal-no-buttons').removeClass('modal-out');
+			})
+		</script>
+	</body>
+</html>

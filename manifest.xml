@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns="http://www.we7.cc" versionCode="0.6,0.52">
+    <application setting="false">
+        <name><![CDATA[网贷超市]]></name>
+        <identifie><![CDATA[wangdai_chaoshi]]></identifie>
+        <version><![CDATA[3.0]]></version>
+        <type><![CDATA[activity]]></type>
+        <ability><![CDATA[网贷超市专注于互联网金融]]></ability>
+        <description><![CDATA[网贷超市，人人可以借款！]]></description>
+        <author><![CDATA[网贷超市]]></author>
+        <url><![CDATA[http://www.d1sj.com]]></url>
+    </application>
+    <platform>
+        <subscribes>
+        </subscribes>
+        <handles>
+            <message type="image"/>
+            <message type="voice"/>
+            <message type="video"/>
+            <message type="shortvideo"/>
+            <message type="location"/>
+            <message type="link"/>
+            <message type="subscribe"/>
+            <message type="qr"/>
+            <message type="trace"/>
+            <message type="click"/>
+            <message type="merchant_order"/>
+            <message type="text"/>
+        </handles>
+        <rule embed="true"/>
+        <card embed="false"/>
+        <supports>
+            <item type="app"/>
+        </supports>
+    </platform>
+    <bindings>
+        <cover>
+            <entry title="网贷入口" do="index" state="" direct=""/>
+            <entry title="文章入口" do="news" state="" direct=""/>
+            <entry title="信用卡入口" do="bank" state="" direct=""/>
+            <entry title="会员中心入口" do="user" state="" direct=""/>
+        </cover>
+        <menu>
+            <entry title="用户列表" do="user" state="" direct=""/>
+            <entry title="用户组别" do="group" state="" direct=""/>
+            <entry title="充值订单" do="order" state="" direct=""/>
+            <entry title="银行管理" do="bank" state="" direct=""/>
+            <entry title="卡片大全" do="card" state="" direct=""/>
+            <entry title="借贷模块" do="lend" state="" direct=""/>
+            <entry title="新闻分类" do="newclass" state="" direct=""/>
+            <entry title="新闻管理" do="news" state="" direct=""/>
+            <entry title="网贷记录" do="netloan" state="" direct=""/>
+            <entry title="办卡记录" do="record" state="" direct=""/>
+            <entry title="提现记录" do="cash" state="" direct=""/>
+            <entry title="系统设置" do="setting" state="" direct=""/>
+            <entry title="Banner管理" do="banner" state="" direct=""/>
+            <entry title="线下贷款申请管理" do="loan" state="" direct=""/>
+        </menu>
+    </bindings>
+    <permissions>
+    </permissions>
+    <install><![CDATA[install.php]]></install>
+    <uninstall><![CDATA[uninstall.php]]></uninstall>
+    <upgrade><![CDATA[upgrade.php]]></upgrade>
+</manifest>

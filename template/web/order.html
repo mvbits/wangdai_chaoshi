@@ -1,0 +1,99 @@
+{template 'common/header'}
+<style>
+	.main{
+		margin: 0 0 30px 0;
+	}
+</style>
+{if $op='index'}
+<div class="main">
+	<div class="panel panel-default">
+		<div class="panel-heading">筛选</div>
+		<div class="panel-body">
+			<form action="../index.php" method="get" class="form-inline" role="form">
+				<input type="hidden" name="c" value="site" />
+	            <input type="hidden" name="a" value="entry" />
+	            <input type="hidden" name="m" value="wangdai_chaoshi" />
+	            <input type="hidden" name="do" value="order" />
+	            <input type="hidden" name="op" value="index" />
+				<div class="form-group">
+					<label for="sn">订单号码</label>
+					<input class="form-control" name="sn" placeholder="请输入订单号码" type="text" value="{$sn}">
+				</div>
+				<div class="form-group">
+					<label for="mobile">订单状态</label>
+					<select class="form-control" name="status">
+						<option value="0" {if $status == 0}selected{/if} >全部</option>
+						<option value="1" {if $status == 1}selected{/if} >已支付</option>
+						<option value="2" {if $status == 2}selected{/if} >未支付</option>
+					</select>
+				</div>
+				<button type="submit" class="btn btn-default"><i class="fa fa-search"></i> 搜索</button>
+			</form>
+		</div>
+	</div>
+	
+    <div class="panel panel-default">
+        <div class="table-responsive panel-body">
+            <form action="" method="post" class="form-horizontal form" onsubmit="return formcheck(this)">
+                <table class="table table-hover" style="margin-top: 15px;">
+                    <thead class="navbar-inner">
+                    <tr>
+                        <th class="text-center">订单SN</th>
+                        <th class="text-center" style="width: 200px;">用户昵称</th>
+                        <th class="text-center">充值金额</th>
+                        <th class="text-center">购买项目</th>
+                        <th class="text-center">支付状态</th>
+                        <th class="text-center">支付时间</th>
+                        <th class="text-center">创建时间</th>
+                    </tr>
+                    </thead>
+                    <tbody id="level-list">
+                    {loop $list $row}
+                    <tr>
+						<td class="text-center">
+							{$row['sn']}
+						</td>
+						<td class="text-center">
+							{php echo $this->users($row['uid'])['nickname']}
+						</td>
+						<td class="text-center">{$row['price']}</td>
+						<td class="text-center">
+							{php echo $this->group($row['group'])['name']}						
+						</td>
+						<td class="text-center">
+							{if $row['status'] == 2}
+							<small class="label label-default">未支付</small>
+							{else if $row['status'] == 1}
+							<small class="label label-success">已支付</small>
+							{/if}
+						</td>
+						<td class="text-center">
+							<small>{if $row['status'] == 2}
+							----
+							{else}
+							{php echo date('Y-m-d H:i',$row['pay_time']);}</small>
+							{/if}
+						</td>
+						<td class="text-center">
+							<small>{php echo date('Y-m-d H:i',$row['create_time']);}</small>
+						</td>
+                    </tr>
+                    {/loop}
+                    <tr>
+                        <td colspan="10">
+                            <input type="hidden" name="token" value="{$_W['token']}"/>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+                
+				<div class="pull-right">
+					{$pager}
+				</div> 
+                
+            </form>
+        </div>
+    </div>
+</div>
+{/if}
+{template 'common/footer'}

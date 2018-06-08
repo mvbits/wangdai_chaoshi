@@ -1,0 +1,322 @@
+{template 'common/header'}
+<style>
+	.main{
+		margin: 0 0 30px 0;
+	}
+</style>
+<div class="main">
+	<form action="" method="post" class="form-horizontal form" enctype="multipart/form-data">
+		<input type="hidden" name="id" value="{$setting['id']}" />
+	    <div class="panel panel-default">
+	        <div class="panel-heading">
+	            全局设置
+	        </div>
+	        <div class="panel-body">
+	            <ul class="nav nav-tabs" id="myTab">
+	                <li class="active"><a href="#tab_1">基本设置</a></li>
+					<li><a href="#tab_2">海报设定</a></li>
+   					<li><a href="#tab_3">办卡攻略</a></li>
+	              	<li><a href="#tab_4">分享设定</a></li>
+	              	<li><a href="#tab_5">邀请文案</a></li>
+	              	<li><a href="#tab_6">支付设置</a></li>
+	              	<li><a href="#tab_7">在线客服</a></li>
+	              	<li><a href="#tab_8">模板消息配置</a></li>
+	              	<li><a href="#tab_9">协议合同</a></li>
+	              	<li><a href="#tab_10">短信接口配置</a></li>
+
+	            </ul>
+	            
+	            <div class="tab-content">
+		            <div class="tab-pane active" id="tab_1">
+			            <div class="form-group">
+			                <label class="col-xs-12 col-sm-2 control-label">平台名称</label>
+			                <div class="col-xs-12 col-sm-10">
+			                    <input type="text" name="config[title]" class="form-control" value="{$config['title']}" />
+			                </div>
+			            </div>
+			            
+<!-- 			            <div class="form-group">
+			                <label class="col-xs-12 col-sm-2 control-label">三级分佣比例</label>
+			                <div class="col-xs-12 col-sm-10">
+			                    <input type="text" name="config[rate]" class="form-control" value="{$config['rate']}" />
+			                	<span class="help-block" style="color:#f00">
+			                		设置格式：50|30|20  ，分别为：上级|上上级|上上上级（办卡以及推广会员分佣均以该比例分配）
+			                	</span>
+			                </div>
+			            </div> -->
+			            
+			            <div class="form-group">
+			                <label class="col-xs-12 col-sm-2 control-label">最低提现金额</label>
+			                <div class="col-xs-12 col-sm-10">
+			                    <input type="text" name="config[cash]" class="form-control" value="{$config['cash']}" />
+			                	<span class="help-block" style="color:#f00">必须大于这个数字才能提现</span>
+			                </div>
+			            </div>
+			            
+		
+	<!-- 		            <div class="form-group">
+			                <label class="col-xs-12 col-sm-2 control-label">充值成功通知</label>
+			                <div class="col-xs-12 col-sm-10">
+			                    <input type="text" name="tmpl_user" class="form-control" value="{$config['tmpl_user']}" />
+			                    <p class="help-block">搜索“充值成功通知”，编号为：OPENTM406209789</p>
+			                </div>
+			            </div>
+	
+			            <div class="form-group">
+			                <label class="col-xs-12 col-sm-2 control-label">下级充值通知</label>
+			                <div class="col-xs-12 col-sm-10">
+			                    <input type="text" name="tmpl_leader" class="form-control" value="{$config['tmpl_leader']}" />
+			                    <p class="help-block">搜索“代销订单提成通知”，编号为：OPENTM207664679</p>
+			                </div>
+			            </div>
+			             -->
+			            
+			            <div class="form-group">
+			                <label class="col-xs-12 col-sm-2 control-label">第三级展示</label>
+			                <div class="col-xs-12 col-sm-10">
+			                    <select  name="config[show_third]" class="form-control" value="{$config['show_third']}">
+			                    	<option value="0" {if $config['show_third'] == 0}selected{/if}>不显示</option>
+			                    	<option value="1" {if $config['show_third'] == 1}selected{/if}>显示</option>
+			                    </select>
+			                    <p class="help-block">是否在个人中心显示出第三级记录</p>
+			                </div>
+			            </div>
+			            
+		        	</div>
+		            <div class="tab-pane" id="tab_2">
+			            <div class="form-group">
+			                <label class="col-xs-12 col-sm-3 col-md-2 control-label">海报背景</label>
+			                <div class="col-sm-9">
+			            		{php echo tpl_form_field_image('config[bg_qrcode]',$config['bg_qrcode'], '/addons/wangdai_chaoshi/static/images/qrcode.png', array('width' => 240, 'height' => 600))}
+			                    <span class="help-block" style="color:#f00">请上传海报的背景</span>
+			                </div>
+			            </div>
+		
+					    <div class="form-group">
+			                <label class="col-xs-12 col-sm-2 control-label">海报参数配置</label>
+			                <div class="col-xs-12 col-sm-10">
+			                    <input type="text" name="config[bg_data]" class="form-control" value="{$config['bg_data']}" />
+			                	<span class="help-block" style="color:#f00">
+			                		设置格式：左边距|上边距|二维码宽度|二维码高度|海报宽度|海报高度  ，比如：300|500|200|200|680|975
+			                	</span>
+			                </div>
+			           </div>
+			           
+					    <div class="form-group">
+			                <label class="col-xs-12 col-sm-2 control-label">头像参数设定</label>
+			                <div class="col-xs-12 col-sm-10">
+			                    <input type="text" name="config[bg_avatar]" class="form-control" value="{$config['bg_avatar']}" />
+			                	<span class="help-block" style="color:#f00">
+			                		设置格式：左边距|上边距|头像宽度|头像高度|海报宽度|海报高度  ，比如：100|200|100|100|680|975
+			                	</span>
+			                </div>
+			           </div>
+			           
+			           
+		        	</div>
+		            <div class="tab-pane" id="tab_4">
+			            <div class="form-group">
+			                <label class="col-xs-12 col-sm-2 control-label">分享标题</label>
+			                <div class="col-xs-12 col-sm-10">
+			                    <input type="text" name="config[share_title]" class="form-control" value="{$config['share_title']}" />
+			                </div>
+			            </div>
+			            
+			            <div class="form-group">
+			                <label class="col-xs-12 col-sm-2 control-label">分享描述</label>
+			                <div class="col-xs-12 col-sm-10">
+			                    <input type="text" name="config[share_desc]" class="form-control" value="{$config['share_desc']}" />
+			                </div>
+			            </div>
+			            
+			            
+			            <div class="form-group">
+			                <label class="col-xs-12 col-sm-3 col-md-2 control-label">分享图片</label>
+			                <div class="col-sm-9">
+			            		{php echo tpl_form_field_image('config[share_img]',$config['share_img'], '/web/resource/images/nopic.jpg', array('width' => 300, 'height' => 300))}
+			                    <span class="help-block" style="color:#f00">建议尺寸300*300的图片</span>
+			                </div>
+			            </div>
+		        	</div>
+	
+					<div class="tab-pane" id="tab_5">
+						<div class="form-group">
+							<label class="col-xs-12 col-sm-3 col-md-2 control-label">邀请文案</label>
+							<div class="col-xs-9">
+								<textarea class="form-control richtext" name="invite" rows="5">{$setting['invite']}</textarea>
+							</div>
+						</div>
+					</div>
+		            <div class="tab-pane" id="tab_6">
+			            <div class="form-group">
+			                <label class="col-xs-12 col-sm-3 col-md-2 control-label">appid</label>
+			                <div class="col-sm-9">
+			            		 <input type="text" name="config[appid]" class="form-control" value="{$config['appid']}" />
+			                </div>
+			            </div>
+		
+					    <div class="form-group">
+			                <label class="col-xs-12 col-sm-2 control-label">商户号mchid</label>
+			                <div class="col-xs-12 col-sm-10">
+			                    <input type="text" name="config[mchid]" class="form-control" value="{$config['mchid']}" />
+			              
+			                </div>
+			           </div>
+			           
+					    <div class="form-group">
+			                <label class="col-xs-12 col-sm-2 control-label">支付秘钥</label>
+			                <div class="col-xs-12 col-sm-10">
+			                    <input type="text" name="config[app_key]" class="form-control" value="{$config['app_key']}" />
+			                	
+			                </div>
+			           </div>
+			           
+           			    <div class="form-group">
+			                <label class="col-xs-12 col-sm-2 control-label">支付证书apiclient_key</label>
+			                <div class="col-xs-12 col-sm-10">
+			                    <textarea name="config[apiclient_key]" class="form-control" rows="10"/>{$config['apiclient_key']}</textarea>
+			                </div>
+			           </div>
+
+           			    <div class="form-group">
+			                <label class="col-xs-12 col-sm-2 control-label">支付证书apiclient_cert</label>
+			                <div class="col-xs-12 col-sm-10">
+			                    <textarea name="config[apiclient_cert]" class="form-control" rows="10"/>{$config['apiclient_cert']}</textarea>
+			                </div>
+			           </div>
+		        	</div>
+					<div class="tab-pane" id="tab_3">
+						<div class="form-group">
+							<label class="col-xs-12 col-sm-3 col-md-2 control-label">办卡攻略</label>
+							<div class="col-xs-9">
+								<textarea class="form-control richtext" name="raiders" rows="5">{$setting['raiders']}</textarea>
+							</div>
+						</div>
+					</div>
+		
+					<div class="tab-pane" id="tab_7">
+						<div class="form-group">
+							<label class="col-xs-12 col-sm-3 col-md-2 control-label">在线客服</label>
+							<div class="col-xs-9">
+								<textarea class="form-control richtext" name="config[make_money]" rows="5">{$config['make_money']}</textarea>
+							</div>
+						</div>
+					</div>
+					<div class="tab-pane" id="tab_8">
+			<!-- 			<div class="form-group">
+							<label class="col-xs-12 col-sm-3 col-md-2 control-label">提现模板消息template_id</label>
+							<div class="col-xs-9">
+								 <input type="text" name="config[tx_template_id]" class="form-control" value="{$config['tx_template_id']}" />
+							</div>
+						</div> -->
+						<div class="form-group">
+							<label class="col-xs-12 col-sm-3 col-md-2 control-label">线下贷款模板消息template_id</label>
+							<div class="col-xs-9">
+								 <input type="text" name="config[loan_template_id]" class="form-control" value="{$config['loan_template_id']}" />
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-xs-12 col-sm-3 col-md-2 control-label">会员升级模板消息template_id</label>
+							<div class="col-xs-9">
+								 <input type="text" name="config[member_template_id]" class="form-control" value="{$config['member_template_id']}" />
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-xs-12 col-sm-3 col-md-2 control-label">办卡网贷审核模板消息template_id</label>
+							<div class="col-xs-9">
+								 <input type="text" name="config[sh_template_id]" class="form-control" value="{$config['sh_template_id']}" />
+							</div>
+						</div>
+					</div>
+			
+					<div class="tab-pane" id="tab_9">
+						<div class="form-group">
+							<label class="col-xs-12 col-sm-3 col-md-2 control-label">合同标题</label>
+							<div class="col-xs-9">
+								 <input type="text" name="config[contract_title_noe]" class="form-control" value="{$config['contract_title_noe']}" />
+							</div>
+							<label class="col-xs-12 col-sm-3 col-md-2 control-label">合同内容</label>
+							<div class="col-xs-9">
+								<textarea class="form-control richtext" name="contract_noe" rows="5">{$setting['contract_noe']}</textarea>
+						</div>
+						</div>
+						<div class="form-group">
+							<label class="col-xs-12 col-sm-3 col-md-2 control-label">合同标题</label>
+							<div class="col-xs-9">
+								 <input type="text" name="config[contract_title_tow]" class="form-control" value="{$config['contract_title_tow']}" />
+							</div>
+							<label class="col-xs-12 col-sm-3 col-md-2 control-label">合同内容</label>
+							<div class="col-xs-9">
+								<textarea class="form-control richtext" name="contract_tow" rows="5">{$setting['contract_tow']}</textarea>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-xs-12 col-sm-3 col-md-2 control-label">用户协议</label>
+							<div class="col-xs-9">
+								 <input type="text" name="config[contract_title_three]" class="form-control" value="{$config['contract_title_three']}" />
+							</div>
+							<label class="col-xs-12 col-sm-3 col-md-2 control-label">合同内容</label>
+							<div class="col-xs-9">
+								<textarea class="form-control richtext" name="contract_three" rows="5">{$setting['contract_three']}</textarea>
+							</div>
+						</div>
+						<div class="form-group">
+						<!-- 	<label class="col-xs-12 col-sm-3 col-md-2 control-label">用户手册</label> -->
+					<!-- 		<div class="col-xs-9">
+								 <input type="text" name="config[contract_title_four]" class="form-control" value="{$config['contract_title_four']}" />
+							</div> -->
+							<label class="col-xs-12 col-sm-3 col-md-2 control-label">用户手册</label>
+							<div class="col-xs-9">
+								<textarea class="form-control richtext" name="contract_four" rows="5">{$setting['contract_four']}</textarea>
+							</div>
+						</div>
+					</div>
+					<div class="tab-pane" id="tab_10">
+						<div class="form-group">
+							<label class="col-xs-12 col-sm-3 col-md-2 control-label">短信平台接口账号</label>
+							<div class="col-xs-9">
+								 <input type="text" name="config[info_name]" class="form-control" value="{$config['info_name']}" />
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-xs-12 col-sm-3 col-md-2 control-label">短信平台接口秘密</label>
+							<div class="col-xs-9">
+								 <input type="text" name="config[info_password]" class="form-control" value="{$config['info_password']}" />
+							</div>
+						</div>
+					</div>
+		            <div class="form-group">
+		                <div class="col-md-6 col-sm-offset-2">
+					        <input type="submit" name="submit" value="提交" class="btn btn-primary" />
+					        <input type="hidden" name="token" value="{$_W['token']}" />
+		                </div>
+		            </div>
+				</div>
+	        </div>
+	    </div>
+	</form>
+	<script type="text/javascript">
+    require(['util'],function(util){
+        util.editor( $(".richtext")[0]);
+        util.editor( $(".richtext")[1]);
+        util.editor( $(".richtext")[2]);
+        util.editor( $(".richtext")[3]);
+        util.editor( $(".richtext")[4]);
+        util.editor( $(".richtext")[5]);
+        util.editor( $(".richtext")[6]);
+
+
+    });
+
+    $(function () {
+        window.optionchanged = false;
+        require(['bootstrap'],function(){
+        $('#myTab a').click(function (e) {
+            e.preventDefault();//阻止a链接的跳转行为
+            $(this).tab('show');//显示当前选中的链接及关联的content
+        }) });
+    });
+</script>
+
+</div>
+{template 'common/footer'}

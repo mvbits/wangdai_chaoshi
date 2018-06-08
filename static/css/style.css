@@ -1,0 +1,402 @@
+.page{
+	background: #FAFAFA;
+}
+.bg-white{
+	background: #fff!important;
+}
+.no-margin{
+	margin: 0!important;
+}
+.list-border-none ul{
+	border-top: none!important;
+}
+
+.infinite-scroll-loadnext{
+	display: none;
+	width: 100%;
+	height: 2.5rem;
+	line-height: 2.5rem;
+	text-align: center;
+	font-size: 0.65rem;
+	margin-bottom: 2.5rem;
+}
+
+
+.index-banner{
+	width:100%;
+	overflow: hidden;
+	line-height: 0;
+}
+.index-banner img{
+	width:100%;
+}
+
+.index-guide{
+	overflow: hidden;
+	width: 100%;
+	background:#fff;
+	padding: 0.5rem 0;
+	margin-bottom: 0.25rem;
+}
+.index-guide a{
+	display: block;
+	overflow: hidden;
+	text-align: center;
+	font-size: 0.65rem;
+	padding: 0.25rem;
+}
+.index-guide img{
+	width:50%;
+	margin:0.25rem;
+}
+.index-guide .text{
+	margin: 0 0 0.25rem 0;
+	color: #888;
+	width: 100%;
+	overflow: hidden;
+	height: 0.65rem;
+	line-height: 0.65rem;
+}
+
+.index-title{
+	width: 100%;
+	height: 2rem;
+	line-height: 2rem;
+	padding: 0 0.5rem;
+	background:#fff;
+	border-bottom: 1px solid #EFEFEF;
+	font-size: 0.7rem;
+	position: relative;
+	font-weight: bold;
+}
+.index-title .rlink{
+	display: block;
+	position: absolute;
+	right: 0;
+	top: 0;
+	padding-right: 0.25rem;
+	color: #999999;
+	font-weight: normal;
+	font-size: 0.65rem;
+}
+.index-recom {
+	margin-bottom: 0.25rem;
+	padding: 0.5rem 0.25rem;
+	background: #fff;
+}
+.index-recom a{
+	display: block;
+	width: 100%;
+	line-height: 0;
+}
+.index-recom img{
+	width: 100%;
+}
+
+.index-banks{
+	width: 100%;
+	overflow:hidden;
+	background:#fff;
+	padding: 0.25rem 0.25rem 2rem 0.25rem;
+	margin-bottom: 2.5rem;
+}
+.index-banks .item{
+	display: block;
+	float: left;
+	width: 25%;
+	text-align: center;
+	padding:0.5rem 0.25rem;
+}
+.index-banks .item img{
+	width: 60%;
+}
+.index-banks .item .text{
+	margin: 0;
+	font-size: 0.65rem;
+	color: #888;
+}
+
+
+.list-card{
+	margin: 0;
+	padding: 0;
+	overflow: hidden;
+	list-style: none;
+	background: #fff;
+}
+.list-card li{
+	overflow: hidden;
+	padding: 0.5rem;
+	border-bottom: 1px solid #eee;
+}
+.list-card li .media{
+	float: left;
+	width: 30%;
+}
+.list-card li .media img{
+	width: 100%;
+}
+.list-card li .info{
+	float: left;
+	width: 45%;
+	padding:0 0.5rem;
+}
+.list-card li .info p.name{
+	margin: 0;
+	font-size: 0.7rem;
+	margin-bottom: 0.15rem;
+	letter-spacing: 0.05rem;
+}
+.list-card li .info p.text{
+	margin: 0;
+	font-size: 0.65rem;
+	color: #888;
+	letter-spacing: 0.05rem;
+}
+.list-card li .link{
+	float: right;
+	width: 25%;
+	text-align: center;
+	border-left: 1px solid #eee;
+}
+.list-card li .link img{
+	width: 2rem;
+}
+.list-card li .link p{
+	margin: 0;
+	font-size: 0.65rem;
+}
+
+.apply-hd{
+	padding: 0.5rem 1rem;
+}
+.apply-hd h1{
+	font-size: 1rem;
+	text-align: center;
+}
+.apply-hd p{
+	font-size: 0.7rem;
+	color: #888;
+}
+.strate-bd{
+	background: #fff;
+	padding:2rem 0.5rem;
+	width: 100%;
+	overflow: hidden;
+}
+.strate-bd p{
+	margin: 0;
+}
+
+.vip-list{
+	list-style: none;
+	margin: 0;
+	padding: 0.5rem;
+}
+.vip-list li{
+	margin: 0.5rem 0;
+}
+.vip-list .item-hd{
+	border: 1px solid #eee;
+	padding: 0.5rem;
+	border-radius: 0.25rem;
+	background: #fff;
+}
+.vip-list .item-hd h1{
+	font-size: 0.75rem;
+	font-weight: normal;
+	margin: 0;
+}
+
+.vip-list .item-hd h1 .price{
+	color: #FF1407;
+	float: right;
+}
+
+.vip-list .item-hd p .price{
+	float: right;
+}
+
+.vip-list .item-hd p{
+	font-size: 0.65rem;
+	color: #888;
+	margin: 0;
+}
+.vip-list .item-bd {
+	padding: 0.5rem 0;
+	font-size: 0.7rem;
+	line-height: 1.5rem;
+	display: none;
+}
+.vip-list li.active .item-hd{
+	border:1px solid #FF9900;
+}
+.vip-list li.active .item-bd{
+	display: block;
+}
+
+.news-list{
+	margin: 0;
+}
+.news-list ul{
+	border-top: none;
+}
+.news-list .item-title{
+	font-size: 0.75rem;
+}
+.news-list .item-text{
+	font-size: 0.65rem;
+	color: #888;
+}
+.load-more{
+	height: 2rem;
+	line-height: 2rem;
+	text-align: center;
+	color: #888;
+	font-size: 0.65rem;
+}
+
+
+.news-hd{
+	padding: 0.75rem;
+	background: #fff;
+}
+.news-hd h1{
+	margin: 0 0 0.25rem 0;
+	font-size: 1rem;
+	font-weight: normal;
+}
+.news-hd p{
+	margin: 0;
+	font-size: 0.75rem;
+}
+.news-hd span{
+	margin-right: 0.5rem;
+	color: #888;
+}
+.news-hd span.name{
+	color: #00A2D4;
+}
+.news-bd {
+	padding:0 .75rem;
+	background: #fff;
+}
+.news-bd img{
+	max-width: 100%;
+}
+.news-bd p{
+	margin: 0;
+	font-size: 0.75rem;
+}
+.news-ft{
+	padding: 0.75rem;
+	background: #fff;
+	color: #888;
+	font-size: 0.75rem;
+}
+
+.user-top{
+	background: url("../images/bg-user.png");
+	background-size: cover!important;
+	height: 7rem;
+	overflow: hidden;
+	padding:1.5rem 1rem;
+}
+.user-top .avatar{
+	float: left;
+	width: 3.5rem;
+	height: 3.5rem;
+	border-radius: 50%;
+	overflow: hidden;
+	border: 3px solid rgba(255,255,255,0.7);
+}
+.user-top .avatar img{
+	width: 3.3rem;
+	height: 3.3rem;
+}
+.user-top .info{
+	float: left;
+	padding-left:1rem;
+}
+.user-top .info h3{
+	font-size: 0.75rem;
+	color: #fff;
+	margin: 0.15rem 0;
+}
+.user-top .info p{
+	font-size: 0.65rem;
+	color: #fff;
+	margin: 0.15rem 0;
+}
+.user-top .info .tixian{
+	font-size: 0.65rem;
+	color: #fff;
+	margin-right: 0.15rem 0;
+	border:1px #ddd dashed;
+}
+.user-top .info .vip{
+	display: inline-block;
+	margin-left: 0.5rem;
+	background: #FFCE44;
+	color: #fff;
+	padding: 0 0.5rem;
+	font-size: 0.6rem;
+	border-radius: 0.25rem;
+}
+
+.user-guide{
+	overflow: hidden;
+	background: #fff;
+}
+.user-guide a{
+	display: block;
+	width: 33.333%;
+	float: left;
+	text-align: center;
+	padding: 0.75rem 0;
+	border-right: 1px solid #eee;
+	border-bottom: 1px solid #eee;
+}
+.user-guide .icon{
+	font-size: 1.8rem;
+}
+.user-guide a p{
+	margin: 0;
+	font-size: 0.6rem;
+	color: #888;
+}
+.user-alert{
+	padding: 1rem;
+	font-size: 0.7rem;
+	color: #FF0000;
+}
+
+.invite-mask{
+	display: none;
+	position: absolute;
+	top: 0;
+	width: 100%;
+	height: 100%;
+	left: 0;
+	background-color: rgba(0,0,0,0.8);
+	z-index: 9999999;
+}
+
+.panel-bank{
+	background:#f5f5f5!important;
+	border-right: 1px solid #eee;
+}
+.panel-bank a{
+	color: #555;
+}
+.panel-bank a.active{
+	color: #FF6C60;
+}
+
+.card-list .item-text{
+	color: #999;
+	font-size: 0.6rem;
+}
+.card-list .item-title{
+	font-size: 0.75rem;
+}

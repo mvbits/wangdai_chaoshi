@@ -1,0 +1,219 @@
+{template 'common/header'}
+<style>
+	.main{
+		margin: 0 0 30px 0;
+	}
+</style>
+<ul class="nav nav-tabs">
+	<li {if $operation == 'index'}class="active"{/if}><a href="{php echo $this->createWebUrl('group', array('op' => 'index'))}">用户组别</a></li>
+	<li {if $operation == 'post'}class="active"{/if}><a href="{php echo $this->createWebUrl('group', array('op' => 'post'))}">添加分组</a></li>
+	
+</ul>
+{if $op == 'index'}
+<div class="main">
+    <div class="panel panel-default">
+        <div class="table-responsive panel-body">
+            <form action="" method="post" class="form-horizontal form" onsubmit="return formcheck(this)">
+                <table class="table table-hover" style="margin-top: 15px;">
+                    <thead class="navbar-inner">
+                    <tr>
+                        <th class="text-center">ID</th>
+                    	<th class="text-center">排列顺序</th>
+                        <th class="text-center">分组名称</th>
+                        <th class="text-center">购买费用</th>
+                        <th class="text-center">直推分佣</th>
+                        <th class="text-center">荐推分佣</th>
+                        <th class="text-center">阅读权限</th>
+                        <th class="text-right">操作</th>
+                    </tr>
+                    </thead>
+                    <tbody id="level-list">
+                    {loop $list $row}
+                    <tr>
+                        <td class="text-center">{$row['id']}</td>
+                    	<td class="text-center">{$row['orderby']}</td>
+						<td class="text-center">{$row['name']}</td>
+						<td class="text-center">{$row['price']}</td>
+						<td class="text-center">{$row['mout']}</td>
+                        <td class="text-center">{$row['mout_tow']}</td>
+						<td class="text-center">{$row['weight']}</td>
+                        <td style="text-align:right;">
+                            <a class="btn btn-default btn-sm" href="{php echo $this->createWebUrl('group', array('op' => 'post', 'id' => $row['id']))}" title="编辑"><i class="fa fa-pencil"></i></a>
+                            <a class="btn btn-default btn-sm" onclick="return confirm('是否要删除？');return false;" href="{php echo $this->createWebUrl('group', array('op' => 'delete', 'id' => $row['id']))}" title="删除"><i class="fa fa-times"></i></a>
+                        </td>
+                    </tr>
+                    {/loop}
+                    <tr>
+                        <td colspan="6">
+                            <input type="hidden" name="token" value="{$_W['token']}"/>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </form>
+        </div>
+    </div>
+  
+</div>
+</div>
+{elseif $op == 'post'}
+<div class="main">
+	<form action="" method="post" class="form-horizontal form" >
+    <div class="panel panel-default">
+        <div class="panel-heading">分组发布 </div>
+        <div class="panel-body">   
+            <div class="form-group">
+                <label class="col-xs-12 col-sm-3 col-md-2 control-label">分组名称</label>
+                <div class="col-sm-9">
+                    <input type="text" name="name" class="form-control name" value="{$item['name']}" />
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-xs-12 col-sm-3 col-md-2 control-label">升级费用</label>
+                <div class="col-sm-9">
+                    <input type="number" name="price" class="form-control price" value="{$item['price']}" />
+                    <div class="help-block">升级会员费用</div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-xs-12 col-sm-3 col-md-2 control-label">直推分佣</label>
+                <div class="col-sm-9">
+                    <input type="text" name="mout" class="form-control mout" value="{$item['mout']}" />
+                    <div class="help-block"  style="color:#f00">设置格式：50|30|20 分别为：渠道经理|团队经理|城市经理（会员升级分佣）</div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-xs-12 col-sm-3 col-md-2 control-label">荐推分佣</label>
+                <div class="col-sm-9">
+                    <input type="text" name="mout_tow" class="form-control mout_tow" value="{$item['mout_tow']}" />
+                    <div class="help-block"  style="color:#f00"> 
+                        设置格式：50|30|20 分别为：渠道经理|团队经理|城市经理（会员升级分佣）
+                    </div>
+                     
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-xs-12 col-sm-3 col-md-2 control-label">分佣层级</label>
+                <div class="col-sm-9">
+                    <select name="mlevel" class="form-control">
+                    	<option value="0" {if $item['mlevel'] == 0}selected{/if}>零级</option>
+                    	<option value="1" {if $item['mlevel'] == 1}selected{/if}>一级</option>
+                    	<option value="2" {if $item['mlevel'] == 2}selected{/if}>二级</option>
+                    	<option value="3" {if $item['mlevel'] == 3}selected{/if}>三级</option>
+                    </select>
+                    <div class="help-block">支持下面多少级分佣</div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-xs-1 col-sm-3 col-md-2 col-lg-2 control-label">所属级别</label>
+                <div class="col-xs-1 col-sm-8">
+                    <label>
+                       <input type="radio" name="type" value="1" {if $item['type']==1}checked="checked"{else}checked="checked" {/if}>渠道经理
+                       <input type="radio" name="type" value="2" {if $item['type']==2}checked="checked" {/if}>团队经理
+                       <input type="radio" name="type" value="3" {if $item['type']==3}checked="checked" {/if}>城市经理
+                    </label>
+                </div>
+            </div>
+
+<!-- 			<div class="form-group">
+				<label class="col-xs-12 col-sm-3 col-md-2 control-label">分组简介</label>
+				<div class="col-xs-9">
+					<textarea class="form-control desc" name="desc" rows="5" style="100%" />{$item['desc']}</textarea>
+				</div>			
+			</div>
+				
+	        <div class="tab-pane" id="tab_7">
+                <div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">详细介绍</label>
+                    <div class="col-xs-9">
+                        <textarea class="form-control richtext about" name="about" rows="5">{$item['about']}</textarea>
+                    </div>
+                </div>
+            </div> -->
+			
+            <div class="form-group">
+                <label class="col-xs-12 col-sm-3 col-md-2 control-label">阅读权限</label>
+                <div class="col-sm-9">
+                    <input type="number" name="weight" class="form-control weight" value="{$item['weight']}" />
+                	 <p class="help-block">该用户组具备多高的阅读权限，小于该权限的文章才可阅读</p>
+                </div>      
+            </div>
+				
+            
+			<div class="form-group">
+                <label class="col-xs-12 col-sm-3 col-md-2 control-label">排列顺序</label>
+                <div class="col-sm-9">
+                    <input type="number" name="orderby" class="form-control orderby"  value="{$item['orderby']}" />
+					<div class="help-block">数字越小越靠前</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-sm-12">
+            <input name="submit" type="submit" value="提交" class="btn btn-primary ">
+            <input type="hidden" name="token" value="{$_W['token']}"/>
+			<input type="hidden" name="id" value="{$item['id']}"/>
+        </div>
+    </div>
+	</form>
+</div>
+<script>
+require(['util'],function(util){
+    util.editor( $(".richtext")[0]);
+});
+require(['jquery', 'util'], function($, util){
+    $(function(){
+        $('form').submit(function(){
+           var name=$(".name").val();
+            if(name==''||name==null){
+                util.message('请填写分组名称');
+                return false;
+            }
+           var price=$(".price").val();
+            if(price==''||price==null){
+                util.message('请填写升级费用');
+                return false;
+            }
+            var mout=$(".mout").val();
+            if(mout==''||mout==null){
+                util.message('请填写一级用户分成金额');
+                return false;
+            }
+            var mout_tow=$(".mout_tow").val();
+            if(mout_tow==''||mout_tow==null){
+                util.message('请填写二级用户分成金额');
+                return false;
+            }
+            // var desc=$(".desc").val();
+            // if(desc==''||desc==null){
+            //     util.message('请填写分组介绍');
+            //     return false;
+            // }
+            // var about=$(".about").val();
+            // if(about==''||about==null){
+            //     util.message('请填写详细简介');
+            //     return false;
+            // }
+           var weight=$(".weight").val();
+            if(weight==''||weight==null){
+                util.message('请填写阅读权限');
+                return false;
+            }
+            var orderby=$(".orderby").val();
+            if(orderby==''||orderby==null){
+                util.message('请填写排列顺序');
+                return false;
+            }
+        });
+
+    });
+
+});
+</script>
+
+
+{/if}
+
+{template 'common/footer'}

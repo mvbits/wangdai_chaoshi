@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<title>我的个人信息</title>
+		<meta name="viewport" content="initial-scale=1, maximum-scale=1">
+		<link rel="shortcut icon" href="{$_W['siteroot']}/addons/wangdai_chaoshi/static/images/favicon.ico">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<link rel="stylesheet" href="{$_W['siteroot']}/addons/wangdai_chaoshi/static/css/light7.css">
+		<link rel="stylesheet" href="{$_W['siteroot']}/addons/wangdai_chaoshi/static/css/icon.css">
+		<link rel="stylesheet" href="{$_W['siteroot']}/addons/wangdai_chaoshi/static/css/style.css?v={$_W['timestamp']}">
+	</head>
+	<body>
+		<div class="page page-current bg-white">
+			<div class="content">
+				<form action="{php echo $this->createMobileUrl('user',array('op' => 'profile'))}" method="post">
+					<div class="list-block list-border-none no-margin">
+						<ul>
+							<li>
+								<div class="item-content">
+									<div class="item-inner">
+										<div class="item-title label">真实姓名</div>
+										<div class="item-input">
+											<input type="text" name="data[name]" placeholder="收款人真实姓名" value="{$user[name]}" />
+										</div>
+									</div>
+								</div>
+							</li>
+							<li>
+								<div class="item-content">
+									<div class="item-inner">
+										<div class="item-title label">身份证号</div>
+										<div class="item-input">
+											<input type="text" name="data[certify]" placeholder="请填写身份证号码" value="{$user[certify]}"  />
+										</div>
+									</div>
+								</div>
+							</li>
+							<!--<li>-->
+								<!--<div class="item-content">-->
+									<!--<div class="item-inner">-->
+										<!--<div class="item-title label">支付宝</div>-->
+										<!--<div class="item-input">-->
+											<!--<input type="text" name="data[alipay]" placeholder="仅支持支付宝账号" value="{$user[alipay]}"  />-->
+										<!--</div>-->
+									<!--</div>-->
+								<!--</div>-->
+							<!--</li>-->
+							<li>
+								<div class="item-content">
+									<div class="item-inner">
+										<div class="item-title label">手机号码</div>
+										<div class="item-input">
+											<input type="number" name="data[mobile]"  pattern="\d*" placeholder="请填写手机号码" value="{$user[mobile]}"  />
+										</div>
+									</div>
+								</div>
+							</li>
+						</ul>
+						<div class="content-block">
+							<input type="submit" name="submit" class="button button-big button-fill button-success" value="提交申请" />
+						</div>
+					</div>
+				</form>
+			</div>
+			<nav class="bar bar-tab">
+				<a class="tab-item external" href="{php echo $this->createMobileUrl('index')}">
+					<span class="icon mdi mdi-home"></span>
+					<span class="tab-label">办卡</span>
+				</a>
+				<a class="tab-item external" href="{php echo $this->createMobileUrl('lend')}">
+					<span class="icon mdi mdi-layers"></span>
+					<span class="tab-label">用钱</span>
+				</a>
+				<a class="tab-item external" href="{php echo $this->createMobileUrl('news')}">
+					<span class="icon mdi mdi-file-document"></span>
+					<span class="tab-label">资讯</span>
+				</a>
+				<a class="tab-item external active" href="{php echo $this->createMobileUrl('user')}">
+					<span class="icon mdi mdi-account-circle"></span>
+					<span class="tab-label">我的</span>
+				</a>
+			</nav>
+		</div>
+		<script src="{$_W['siteroot']}/addons/wangdai_chaoshi/static/js/jquery.js"></script>
+		<script src="{$_W['siteroot']}/addons/wangdai_chaoshi/static/js/light7.js"></script>
+		<script src="{$_W['siteroot']}/addons/wangdai_chaoshi/static/js/common.js?v={$_W['timestamp']}"></script>
+		{php echo register_jssdk(false);} 
+		<script>
+			wx.ready(function () {
+		        sharedata = {
+		            title: "{$config['share_title']}",
+		            desc: "{$config['share_desc']}",
+		            link: "{$_W['siteroot']}{php echo $this->createMobileUrl('index')}",
+		            imgUrl: "{$_W['attachurl']}{$config['share_img']}",//本域链接
+		        };
+				wx.onMenuShareAppMessage(sharedata);
+				wx.onMenuShareTimeline(sharedata);
+				wx.onMenuShareQQ(sharedata);
+				wx.onMenuShareQZone(sharedata);
+				wx.onMenuShareWeibo(sharedata);
+			});
+		</script>
+	</body>
+</html>

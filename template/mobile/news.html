@@ -1,0 +1,252 @@
+{if $operation == 'index'}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>最新资讯</title>
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1">
+    <link rel="shortcut icon" href="{$_W['siteroot']}/addons/wangdai_chaoshi/static/images/favicon.ico">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="stylesheet" href="{$_W['siteroot']}/addons/wangdai_chaoshi/static/css/bootstrap.css">
+    <link rel="stylesheet" href="{$_W['siteroot']}/addons/wangdai_chaoshi/static/css/light7.css">
+    <link rel="stylesheet" href="{$_W['siteroot']}/addons/wangdai_chaoshi/static/css/icon.css">
+    <link rel="stylesheet" href="{$_W['siteroot']}/addons/wangdai_chaoshi/static/css/style.css?v={$_W['timestamp']}">
+    <script src="{$_W['siteroot']}/addons/wangdai_chaoshi/static/js/jquery.js"></script>
+    <script src="{$_W['siteroot']}/addons/wangdai_chaoshi/static/js/light7.js"></script>
+    <script src="{$_W['siteroot']}/addons/wangdai_chaoshi/static/js/bootstrap.min.js"></script>
+    <script src="{$_W['siteroot']}/addons/wangdai_chaoshi/static/js/common.js?v={$_W['timestamp']}"></script>
+</head>
+<style>
+    .class-lists {
+        width: 100%;
+        overflow: auto;
+    }
+    .recommend_litab {
+        background: white;
+        margin-top: 10px;
+        margin-bottom: 10px;
+        padding: 10px;
+        font-size: 14px;
+        width: max-content;
+    }
+
+    .recommend_litab .recommend_litab_li {
+        float: left;
+        padding: 5px;
+        padding-right: 20px;
+    }
+
+    .recommend_litab .recommend_litab_li .active {
+        border-bottom: 2px solid #3d8eff;
+        padding-bottom: 10px;
+        color: #3d8eff;
+    }
+    .recommend_litab .recommend_litab_li {
+        color: #333;
+    }
+
+    .recommend_litab:after {
+        clear: both;
+        content: "";
+        display: block;
+    }
+
+
+</style>
+<body>
+<div class="page page-current">
+
+    <div class="content" style="overflow-y: auto; overflow-x: hidden; padding-bottom: 2.5rem;">
+<!--         <div class="index-banner">
+            <a href="{$banners[0]['url']}" class="external">
+                <img src="{$_W['attachurl']}{$banners[0]['img']}" />
+            </a>
+        </div> -->
+        <div id="banner-carousel" class="carousel slide index-banner"  data-ride="carousel"  data-interval="2000">
+            <!-- Indicators -->
+            <ol class="carousel-indicators">
+                {loop $banners $k $row}
+                <li data-target="#banner-carousel" data-slide-to="{$k}" {if $k==0} class="active" {/if}></li>
+                 {/loop}
+            </ol>
+            <div class="index-banner carousel-inner" role="listbox">
+                 {loop $banners $k $row}
+                    <div class="item {if $k ==0} active{/if}" >
+                        <img  src="{$_W['attachurl']}{$row['img']}" alt="...">
+                    </div>
+                 {/loop}
+        
+            </div>
+        </div>
+
+        <div class="class-lists">
+
+            <div class="recommend_litab">
+                <a href="{php echo $this->createMobileUrl('news', array('class' => 0))}" class="external">
+                    <div class="recommend_litab_li">
+                        <span class="{if $classId == 0}active{/if}">全部</span>
+                    </div>
+                </a>
+                {loop $classes $class}
+                <a href="{php echo $this->createMobileUrl('news', array('class' => $class['id']))}" class="external">
+                    <div class="recommend_litab_li">
+                        <span class="{if $classId == $class['id']}active{/if}">{$class['name']}</span>
+                    </div>
+                </a>
+                {/loop}
+                <!--<div class="recommend_litab_li" @click="search.type = 'all', loadData()">-->
+                <!--<span :class="{on:search.type == 'all'}">信用卡贷</span>-->
+                <!--</div>-->
+            </div>
+        </div>
+        <div class="list-block media-list news-list">
+            <ul style="width: 100%;" id="list" attr-page="1"></ul>
+        </div>
+        <div id="more" classess="load-more" style="text-align:center">加载更多内容</div>
+    </div>
+    <nav class="bar bar-tab">
+        <a class="tab-item external" href="{php echo $this->createMobileUrl('index')}">
+            <span class="icon mdi mdi-home"></span>
+            <span class="tab-label">办卡</span>
+        </a>
+        <a class="tab-item external" href="{php echo $this->createMobileUrl('lend')}">
+            <span class="icon mdi mdi-layers"></span>
+            <span class="tab-label">用钱</span>
+        </a>
+        <a class="tab-item external active" href="{php echo $this->createMobileUrl('news')}">
+            <span class="icon mdi mdi-file-document"></span>
+            <span class="tab-label">资讯</span>
+        </a>
+        <a class="tab-item external" href="{php echo $this->createMobileUrl('user')}">
+                <span class="icon mdi mdi-account-circle"></span>
+                <span class="tab-label">我的</span>
+        </a>
+    </nav>
+</div>
+
+{php echo register_jssdk(false);}
+<script>
+    wx.ready(function () {
+        sharedata = {
+            title: "{$config['share_title']}",
+            desc: "{$config['share_desc']}",
+            link: "{$_W['siteroot']}{php echo $this->createMobileUrl('index')}",
+            imgUrl: "{$_W['attachurl']}{$config['share_img']}",//本域链接
+        };
+        wx.onMenuShareAppMessage(sharedata);
+        wx.onMenuShareTimeline(sharedata);
+        wx.onMenuShareQQ(sharedata);
+        wx.onMenuShareQZone(sharedata);
+        wx.onMenuShareWeibo(sharedata);
+    });
+    var url = "{php echo $this->createMobileUrl('news',array('op' =>'ajax', 'class' => $classId))}";
+    var page = $("#list").attr("attr-page");
+    $.post(url, {page: page}, function (result) {
+        $("#list").html(result);
+    });
+    $("#more").click(function () {
+        page = parseInt($("#list").attr("attr-page")) + 1;
+        $.post(url, {page: page}, function (result) {
+            if (result.length > 10) {
+                $("#list").attr("attr-page", page);
+                $("#list").append(result);
+            } else {
+                $('#more').text('没有更多了')
+            }
+        });
+    });
+</script>
+</body>
+</html>
+{elseif $operation == 'ajax'}
+{loop $list $row}
+<li style="width: 100%;">
+    <a href="{php echo $this->createMobileUrl('news',array('op' => 'detail','id' => $row['id']))}" class="item-content external">
+        <div class="item-media"><img src="{$_W['attachurl']}{$row['thumb']}" style='width:3rem;' /></div>
+        <div class="item-inner" style="overflow: hidden; height: 100%;">
+            <div class="item-title-row">
+                <div class="item-title" style=" text-overflow:ellipsis;
+  white-space:nowrap; width: 100%; overflow: hidden;">{$row['title']}</div>
+            </div>
+            <div class="item-text">{$row['desc']}</div>
+        </div>
+    </a>
+</li>
+{/loop}
+{elseif  $operation == 'detail'}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>{$config['title']}</title>
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1">
+    <link rel="shortcut icon" href="{$_W['siteroot']}/addons/wangdai_chaoshi/static/images/favicon.ico">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="stylesheet" href="{$_W['siteroot']}/addons/wangdai_chaoshi/static/css/light7.css">
+    <link rel="stylesheet" href="{$_W['siteroot']}/addons/wangdai_chaoshi/static/css/icon.css">
+    <link rel="stylesheet" href="{$_W['siteroot']}/addons/wangdai_chaoshi/static/css/style.css?v={$_W['timestamp']}">
+</head>
+
+<body  style="background: #fff">
+ <div>
+    <div class="content" style="bottom:2.5rem">
+        <div class="news-hd">
+            <h1>{$detail['title']}</h1>
+            <p>
+                <span class="time">{php echo date('Y-m-d',$detail['create_time'])}</span>
+                <span class="name">{$config['title']}</span>
+            </p>
+        </div>
+        <div class="news-bd">
+            {php echo html_entity_decode($detail['content']);}
+        </div>
+        <div style="padding:0.75rem">
+            <span style="color: #888;font-size: 0.75rem;">阅读: {$detail['click']}</span>
+        </div>
+    </div>
+    <nav class="bar bar-tab">
+        <a class="tab-item external" href="{php echo $this->createMobileUrl('index')}">
+            <span class="icon mdi mdi-home"></span>
+            <span class="tab-label">办卡</span>
+        </a>
+        <a class="tab-item external" href="{php echo $this->createMobileUrl('lend')}">
+            <span class="icon mdi mdi-layers"></span>
+            <span class="tab-label">用钱</span>
+        </a>
+        <a class="tab-item external" href="{php echo $this->createMobileUrl('news')}">
+            <span class="icon mdi mdi-file-document"></span>
+            <span class="tab-label">资讯</span>
+        </a>
+        <a class="tab-item external" href="{php echo $this->createMobileUrl('user')}">
+            <span class="icon mdi mdi-account-circle"></span>
+            <span class="tab-label">我的</span>
+        </a>
+    </nav>
+</div>
+<!-- <script src="{$_W['siteroot']}/addons/wangdai_chaoshi/static/js/jquery.js"></script>
+<script src="{$_W['siteroot']}/addons/wangdai_chaoshi/static/js/light7.js"></script>
+<script src="{$_W['siteroot']}/addons/wangdai_chaoshi/static/js/common.js?v={$_W['timestamp']}"></script> -->
+{php echo register_jssdk(false);}
+<script>
+    wx.ready(function () {
+        sharedata = {
+            title: "{$detail['title']}",
+            desc: "{$detail['desc']}",
+            link: "{$_W['siteroot']}{php echo $this->createMobileUrl('news',array('op' => 'detail','id' =>$detail['id']))}",
+            imgUrl: "{$_W['attachurl']}{$detail['thumb']}",//本域链接
+        };
+        wx.onMenuShareAppMessage(sharedata);
+        wx.onMenuShareTimeline(sharedata);
+        wx.onMenuShareQQ(sharedata);
+        wx.onMenuShareQZone(sharedata);
+        wx.onMenuShareWeibo(sharedata);
+    });
+</script>
+</body>
+</html>
+{/if}
+

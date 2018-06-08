@@ -1,0 +1,139 @@
+{template 'common/header'}
+<style>
+	.main{
+		margin: 0 0 30px 0;
+	}
+</style>
+<ul class="nav nav-tabs">
+	<li {if $operation == 'index'}class="active"{/if}><a href="{php echo $this->createWebUrl('cash', array('op' => 'index'))}">提现记录</a></li>
+	<li {if $operation == 'export'}class="active"{/if}><a href="{php echo $this->createWebUrl('cash', array('op' => 'export'))}">导出记录</a></li>
+</ul>
+{if $op == 'index'}
+<div class="main">
+    <div class="panel panel-default">
+        <div class="table-responsive panel-body">
+            <form action="" method="post" class="form-horizontal form" onsubmit="return formcheck(this)">
+                <table class="table table-hover" style="margin-top: 15px;">
+                    <thead class="navbar-inner">
+                    <tr>
+                        <th class="text-center">记录ID</th>
+                        <th class="text-center">用户昵称</th>
+                        <th class="text-center">提现金额</th>
+                        <th class="text-center">真实姓名</th>
+                        <th class="text-center">联系电话</th>
+                        <th class="text-center">支付宝</th>
+                        <th class="text-center">状态</th>
+                        <th class="text-center">时间</th>
+                        <th class="text-right">操作</th>
+                    </tr>
+                    </thead>
+                    <tbody id="level-list">
+                    {loop $list $row}
+                    <tr>
+						<td class="text-center">
+							{$row['id']}
+						</td>
+						<td class="text-center">
+							{php echo $this->users($row['uid'])['nickname']}
+						</td>
+						<td class="text-center">
+							{$row['money']}
+						</td>
+						<td class="text-center">{$row['name']}</td>
+						<td class="text-center">
+							{$row['mobile']}
+						</td>
+						<td class="text-center">
+							{$row['alipay']}
+						</td>
+						<td class="text-center">	
+							{if $row['status'] == 3}
+							<small class="label label-danger">已拒绝</small>
+							{elseif $row['status'] == 2}
+							<small class="label label-success">已打款</small>
+							{elseif $row['status'] == 1}
+							<small class="label label-default">未处理</small>
+							{/if}
+						</td>
+						<td class="text-center">
+							<small>{php echo date('Y-m-d H:i',$row['createtime'])}</small>
+						</td>
+                        <td style="text-align: right;">
+                        	{if $row['status'] == 1}
+                            <a class="btn btn-default btn-sm" onclick="return confirm('是否确认打款？');return false;" href="{php echo $this->createWebUrl('cash', array('op' => 'confirm', 'id' => $row['id']))}" title="确认打款"><i">确认打款</i></a>
+                            <a class="btn btn-default btn-sm" onclick="return confirm('是否要拒绝？');return false;" href="{php echo $this->createWebUrl('cash', array('op' => 'refuse', 'id' => $row['id']))}" title="拒绝申请"><i>拒绝申请</i></a>
+                            {/if}       
+                        </td>
+                    </tr>
+                    {/loop}
+                    <tr>
+                        <td colspan="10">
+                            <input type="hidden" name="token" value="{$_W['token']}"/>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+                
+                
+				<div class="pull-right">
+					{$pager}
+				</div>
+                
+            </form>
+        </div>
+    </div>
+  
+</div>
+{elseif $op== 'export'}
+<div class="main">
+	<div class="panel panel-info">
+		<div class="panel-heading">筛选</div>
+		<div class="panel-body">
+			<form action="" method="post" class="form form-horizontal" >			
+				<div class="form-group">
+	                <label class="col-xs-12 col-sm-3 col-md-2 control-label">筛选条件</label>
+	                <div class="col-sm-9">
+	                	<select name="status">
+	                		<option value="0" {if $status==0}selected{/if}>全部数据</option>
+	                		<option value="1" {if $status==1}selected{/if}>未处理</option>
+	                		<option value="2" {if $status==2}selected{/if}>已打款</option>
+	                		<option value="3" {if $status==3}selected{/if}>已拒绝</option>
+	                	</select> 
+	                </div>
+	            </div>
+				
+				<div class="form-group">
+	                <label class="col-xs-12 col-sm-3 col-md-2 control-label">开始日期</label>
+	                <div class="col-sm-9">
+	                 
+	                    {php echo tpl_form_field_date('start_date', $activity['start_date'], true)}
+
+	                </div>
+	            </div>
+				
+				<div class="form-group">
+	                <label class="col-xs-12 col-sm-3 col-md-2 control-label">结束日期</label>
+	                <div class="col-sm-9">
+	                   {php echo tpl_form_field_date('end_date', $activity['endt_date'], true)}
+	                </div>
+	            </div>
+	            
+	            <div class="form-group">
+	            	<div class="col-sm-9 col-md-offset-2">
+	            		说明：通过该功能可以导出对应日期的提现记录到EXCEL文件。
+	            	</div>
+				</div>
+				
+			    <div class="form-group">
+			        <div class="col-sm-9 col-md-offset-2">
+			            <input name="submit" type="submit" value="提交" class="btn btn-primary ">
+			            <input type="hidden" name="token" value="{$_W['token']}"/>	
+			        </div>
+			    </div>
+
+			</form>
+		</div>
+	</div>
+</div>
+{/if}
+{template 'common/footer'}

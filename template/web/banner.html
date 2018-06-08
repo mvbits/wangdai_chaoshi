@@ -1,0 +1,140 @@
+{template 'common/header'}
+<style>
+	.main{
+		margin: 0 0 30px 0;
+	}
+</style>
+<ul class="nav nav-tabs">
+	<li {if $op == 'index'}class="active"{/if}><a href="{php echo $this->createWebUrl('banner', array('op' => 'index'))}">Banner管理</a></li>
+	<li {if $op == 'post'}class="active"{/if}><a href="{php echo $this->createWebUrl('banner', array('op' => 'post'))}">添加Banner</a></li>
+	
+</ul>
+{if $op == 'index'}
+<div class="main">
+    <div class="panel panel-default">
+        <div class="table-responsive panel-body">
+            <form action="" method="post" class="form-horizontal form" onsubmit="return formcheck(this)">
+                <table class="table table-hover" style="margin-top: 15px;">
+                    <thead class="navbar-inner">
+                    <tr>
+                    	<th>id</th>
+                    	<th>所属类别</th>
+                    	<th>图片</th>
+                        <th>排序</th>
+                        <th>操作</th>
+                    </tr>
+                    </thead>
+                    <tbody id="level-list">
+                    {loop $list $row}
+                    <tr>
+                    	<td>{$row['id']}</td>
+						<td>
+                            {if $row['type']==1}
+                                新闻
+                            {elseif $row['type']==2 } 
+                                网贷
+                            {elseif $row['type']==3 }
+                                信用卡
+                            {/if}
+                        </td>
+						<td><img src="{php echo $_W['attachurl'].$row['img']}" class="headimg" style="width:45px;height:30px"></td>
+                        <td>{$row['sort']}</td>
+                        <td>
+                            <a class="btn btn-default btn-sm" href="{php echo $this->createWebUrl('banner', array('op' => 'post', 'id' => $row['id']))}" title="编辑"><i class="fa fa-pencil"></i></a>
+                            <a class="btn btn-default btn-sm" onclick="return confirm('是否要删除？');return false;" href="{php echo $this->createWebUrl('banner', array('op' => 'delete', 'id' => $row['id']))}" title="删除"><i class="fa fa-times"></i></a>
+                        </td>
+                    </tr>
+                    {/loop}
+                    <tr>
+                        <td colspan="6">
+                            <input type="hidden" name="token" value="{$_W['token']}"/>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+                
+				<div class="pull-right">
+					{$pager}
+				</div>
+                
+            </form>
+        </div>
+    </div>
+</div>
+</div>
+{elseif $op == 'post'}
+<div class="main">
+	<form action="" method="post" class="form-horizontal form" >
+    <div class="panel panel-default">
+        <div class="panel-heading"> Banner</div>
+        <div class="panel-body">   
+            <div class="form-group">
+                <label class="col-xs-12 col-sm-3 col-md-2 control-label">所属类别</label>
+                <div class="col-sm-9">
+                    <input type="radio" name="type" value="1"{if $item['type']==1}checked="checked"{else}checked="checked"{/if} />新闻
+                    <input type="radio" name="type" value="2"{if $item['type']==2}checked="checked"{/if} />网贷
+                    <input type="radio" name="type" value="3"{if $item['type']==3}checked="checked"{/if} />信用卡
+
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-xs-12 col-sm-3 col-md-2 control-label">排序</label>
+                <div class="col-sm-9">
+                    <input type="number" name="sort" class="form-control" value="{$item['sort']}" />
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-xs-12 col-sm-3 col-md-2 control-label">URL</label>
+                <div class="col-sm-9">
+                    <input type="text" name="url" class="form-control" value="{$item['url']}" />
+                      <span class="help-block" style="color:red">广告所在地址http://www.baidu.com</span>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-xs-12 col-sm-3 col-md-2 control-label">图片</label>
+                <div class="col-sm-9">
+            		{php echo tpl_form_field_image('img',$item['img'], '/web/resource/images/nopic.jpg', array('width' => 640, 'height' => 320))}
+                    <span style="color:red">图片尺寸:600*300</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-sm-12">
+            <input name="submit" type="submit" value="提交" class="btn btn-primary ">
+            <input type="hidden" name="token" value="{$_W['token']}"/>
+			<input type="hidden" name="id" value="{$item['id']}"/>
+        </div>
+    </div>
+	</form>
+</div>
+<script>
+    require(['jquery', 'util'], function($, util){
+    $(function(){
+        $('form').submit(function(){
+           var type=$("[name='type']:checked").val();
+            if(type==''||type==null){
+                util.message('请填写分类');
+                return false;
+            }   
+           var sort=$("[name='sort']").val();
+            if(sort==''||sort==null){
+                util.message('请填写排序');
+                return false;
+            } 
+           var url=$("[name='url']").val();
+            if(url==''||url==null){
+                util.message('请填写url');
+                return false;
+            }  
+        });
+
+    });
+
+});
+</script>
+
+{/if}
+
+{template 'common/footer'}

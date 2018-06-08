@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<title>申请提现</title>
+		<meta name="viewport" content="initial-scale=1, maximum-scale=1">
+		<link rel="shortcut icon" href="{$_W['siteroot']}/addons/wangdai_chaoshi/static/images/favicon.ico">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<link rel="stylesheet" href="{$_W['siteroot']}/addons/wangdai_chaoshi/static/css/light7.css">
+		<link rel="stylesheet" href="{$_W['siteroot']}/addons/wangdai_chaoshi/static/css/icon.css">
+		<link rel="stylesheet" href="{$_W['siteroot']}/addons/wangdai_chaoshi/static/css/style.css?v={$_W['timestamp']}">
+	</head>
+	<body>
+		<div class="page page-current bg-white">
+			<div class="content">
+				<form action="{php echo $this->createMobileUrl('user',array('op' => 'tocash'))}" method="post">
+					<div class="content-padded">
+						<div class="color-danger">{if $user['money']> $config['cash']}您的账户最高可提现￥{$user['money']}元，收款人姓名必须和支付宝账户一致。{else}您的余额为￥{$user['money']}，满￥{$config['cash']}元就可以提现了。{/if}</div>
+					</div>
+					<div class="list-block no-margin">
+						<ul>
+							<li>
+								<div class="item-content">
+									<div class="item-inner">
+										<div class="item-title label">提现金额</div>
+										<div class="item-input">
+											<input type="text" name="data[money]" placeholder="需要提现的金额"  />
+										</div>
+									</div>
+								</div>
+							</li>
+							{if $user['alipay']==''}
+							<li>
+								<div class="item-content">
+									<div class="item-inner">
+										<div class="item-title label">支付宝账号</div>
+										<div class="item-input">
+											<input type="text" clsss="alipay" name="data[alipay]" placeholder="支付宝账号"  />
+										</div>
+									</div>
+								</div>
+							</li>
+							{/if}
+						</ul>
+						<div class="content-block">
+							<input type="submit" name="submit" class="button button-big button-fill button-success" value="提交申请" />
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+		<script src="{$_W['siteroot']}/addons/wangdai_chaoshi/static/js/jquery.js"></script>
+		<script src="{$_W['siteroot']}/addons/wangdai_chaoshi/static/js/light7.js"></script>
+		<script src="{$_W['siteroot']}/addons/wangdai_chaoshi/static/js/common.js?v={$_W['timestamp']}"></script>
+		{php echo register_jssdk(false);} 
+		<script>
+			wx.ready(function () {
+		        sharedata = {
+		            title: "{$config['share_title']}",
+		            desc: "{$config['share_desc']}",
+		            link: "{$_W['siteroot']}{php echo $this->createMobileUrl('index')}",
+		            imgUrl: "{$_W['attachurl']}{$config['share_img']}",//本域链接
+		        };
+				wx.onMenuShareAppMessage(sharedata);
+				wx.onMenuShareTimeline(sharedata);
+				wx.onMenuShareQQ(sharedata);
+				wx.onMenuShareQZone(sharedata);
+				wx.onMenuShareWeibo(sharedata);
+			});
+		</script>
+	</body>
+</html>

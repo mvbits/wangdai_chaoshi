@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>账户管理</title>
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="Expires" content="0" />
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="x5-orientation" content="portrait">
+    <link rel="stylesheet" href="{$_W['siteroot']}/addons/wangdai_chaoshi/static/css/bootstrap.css">
+    <link rel="stylesheet" href="{$_W['siteroot']}/addons/wangdai_chaoshi/static/css/account.css">
+    <link rel="stylesheet" href="{$_W['siteroot']}/addons/wangdai_chaoshi/static/css/light7.css">
+    <link rel="stylesheet" href="{$_W['siteroot']}/addons/wangdai_chaoshi/static/css/icon.css">
+    <link rel="stylesheet" href="{$_W['siteroot']}/addons/wangdai_chaoshi/static/css/style.css?v={$_W['timestamp']}">
+    <script src="{$_W['siteroot']}/addons/wangdai_chaoshi/static/js/jquery.js"></script>
+    <script src="{$_W['siteroot']}/addons/wangdai_chaoshi/static/js/bootstrap.min.js"></script>
+</head>
+<body style="width:100%; background-size: 100% 100%;overflow-x:hidden;overflow-y: scroll;
+        ">
+    <div id="head" style="padding:10px 0px;width:100%;height:37vh;background:url('../addons/wangdai_chaoshi/static/images/banner.png');
+              background-size: 100% 100%;
+              -moz-background-size: 100% 100%;
+              -webkit-background-size: 100% 100%;">
+        <table border="0">
+            <tr>
+                <td style="color:#EBDB3B;">￥<font style="font-size: 150%;">{if $user_liser['money']}{$user_liser['money']}{else}0.00{/if}</font></td>
+            </tr>
+            <tr>
+                <td>可提现金额</td>
+            </tr>
+            <tr>
+                <td id="tocash"><div style="width:28vw;height: 5vh;background:#2D88BF;margin: 0 auto;border-radius: 10px;line-height: 5vh">申请提现</div></td>
+            </tr>
+        </table>
+        <div style="height:1px;width:100%;background: #aaa;margin: 2vh 0px;"></div>
+        <table>
+            <tr>
+                <td>总收益</td>
+                <td>待审核</td>
+                <td>已提现</td>
+            </tr>
+            <tr>
+                <td style="color:#EBDB3B;">￥ {if $total_money}{$total_money}{else}0.00{/if}</td>
+                <td style="color:#EBDB3B;">￥ {if $Not_put_forward['money']}{$Not_put_forward['money']}{else}0.00{/if}</td>
+                <td style="color:#EBDB3B;">￥ {if $Already_presented['money']}{$Already_presented['money']}{else}0.00{/if}</td>
+            </tr>
+        </table>
+    </div>
+    <div id="main">
+        <div class="box" id="income">
+            <div class="one"><img src="{$_W['siteroot']}/addons/wangdai_chaoshi/static/images/shouyi.jpg" alt=""></div>
+            <div class="two">&nbsp;&nbsp;&nbsp;收益明细</div>
+            <div class="three"><img src="{$_W['siteroot']}/addons/wangdai_chaoshi/static/images/jiantou.png" alt=""></div>
+        </div>
+        <div class="box" id="cash">
+            <div class="one"><img src="{$_W['siteroot']}/addons/wangdai_chaoshi/static/images/tixian.png" alt=""></div>
+            <div class="two">&nbsp;&nbsp;&nbsp;提现记录</div>
+            <div class="three"><img src="{$_W['siteroot']}/addons/wangdai_chaoshi/static/images/jiantou.png" alt=""></div>
+        </div>
+        <div class="box" id="customer">
+            <div class="one"><img src="{$_W['siteroot']}/addons/wangdai_chaoshi/static/images/wode.png" alt=""></div>
+            <div class="two">&nbsp;&nbsp;&nbsp;我的客户</div>
+            <div class="three"><img src="{$_W['siteroot']}/addons/wangdai_chaoshi/static/images/jiantou.png" alt=""></div>
+        </div>
+    </div>
+    <nav class="bar bar-tab">
+        <a class="tab-item external" href="{php echo $this->createMobileUrl('index')}">
+            <span class="icon mdi mdi-home"></span>
+            <span class="tab-label">办卡</span>
+        </a>
+        <a class="tab-item external" href="{php echo $this->createMobileUrl('lend')}">
+            <span class="icon mdi mdi-layers"></span>
+            <span class="tab-label">用钱</span>
+        </a>
+        <a class="tab-item external" href="{php echo $this->createMobileUrl('news')}">
+            <span class="icon mdi mdi-file-document"></span>
+            <span class="tab-label">资讯</span>
+        </a>
+        <a class="tab-item external active" href="{php echo $this->createMobileUrl('user')}">
+            <span class="icon mdi mdi-account-circle"></span>
+            <span class="tab-label">我的</span>
+        </a>
+    </nav>
+</body>
+</html>
+<script type="text/javascript">
+
+$('#income').click(function(){
+       window.location.href="{php echo $this->createMobileUrl('user', array('op'=>'income'))}";
+});
+  
+$('#cash').click(function(){
+       window.location.href="{php echo $this->createMobileUrl('user', array('op'=>'cash'))}";
+}); 
+$('#customer').click(function(){
+       window.location.href="{php echo $this->createMobileUrl('user', array('op'=>'customer'))}";
+}); 
+$('#tocash').click(function(){
+       window.location.href="{php echo $this->createMobileUrl('user', array('op'=>'tocash'))}";
+}); 
+
+</script>

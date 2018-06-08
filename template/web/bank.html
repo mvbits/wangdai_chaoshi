@@ -1,0 +1,171 @@
+{template 'common/header'}
+<style>
+	.main{
+		margin: 0 0 30px 0;
+	}
+</style>
+<ul class="nav nav-tabs">
+	<li {if $operation == 'index'}class="active"{/if}><a href="{php echo $this->createWebUrl('bank', array('op' => 'index'))}">银行管理</a></li>
+    <li {if $operation == 'post' and $id <= 0}class="active"{/if}><a href="{php echo $this->createWebUrl('bank', array('op' => 'post'))}">添加银行</a></li>
+    {if $operation == 'post' and $id > 0}<li class="active"><a href="">修改银行</a></li>{/if}
+
+</ul>
+{if $operation == 'index'}
+<div class="main">
+    <div class="panel panel-default">
+        <div class="table-responsive panel-body">
+            <form action="" method="post" class="form-horizontal form" onsubmit="return formcheck(this)">
+                <table class="table table-hover" style="margin-top: 15px;">
+                    <thead class="navbar-inner">
+                    <tr>
+                        <th class="text-center">银行名称</th>
+                        <th class="text-center">直推分佣</th>
+                        <th class="text-center">荐推分佣</th>
+                        <th class="text-center">排列顺序</th>
+                        <th class="text-right">操作</th>
+                    </tr>
+                    </thead>
+                    <tbody id="level-list">
+                    {loop $list $row}
+                    <tr>
+						<td class="text-center">
+							{$row['name']}
+						</td>
+						<td class="text-center">{$row['price']}</td>
+                        <td class="text-center">{$row['price_tow']}</td>
+						<td class="text-center">{$row['orderby']}</td>
+                        <td style="text-align: right;">
+                            <a class="btn btn-default btn-sm" href="{php echo $this->createWebUrl('bank', array('op' => 'post', 'id' => $row['id']))}" title="编辑"><i class="fa fa-pencil"></i></a>
+                            <a class="btn btn-default btn-sm" onclick="return confirm('是否要删除？');return false;" href="{php echo $this->createWebUrl('bank', array('op' => 'delete', 'id' => $row['id']))}" title="删除"><i class="fa fa-times"></i></a>
+                        </td>
+                    </tr>
+                    {/loop}
+                    <tr>
+                        <td colspan="5">
+                            <input type="hidden" name="token" value="{$_W['token']}"/>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </form>
+        </div>
+    </div>
+    {$pager}
+
+</div>
+</div>
+{elseif $operation == 'post'}
+<div class="main">
+	<form action="" method="post" class="form-horizontal form" >
+    <div class="panel panel-default">
+        <div class="panel-heading">银行接口 </div>
+        <div class="panel-body">   
+            <div class="form-group">
+                <label class="col-xs-12 col-sm-3 col-md-2 control-label">银行名称</label>
+                <div class="col-sm-9">
+                    <input type="text" name="data[name]" class="form-control names" value="{$item['name']}" />
+                </div>
+            </div>  
+            <div class="form-group">
+                <label class="col-xs-12 col-sm-3 col-md-2 control-label">直推分佣</label>
+                <div class="col-sm-9">
+                    <input type="text" name="data[price]" class="form-control price" value="{$item['price']}" />
+                    <div class="help-block"  style="color:#f00">设置格式：20|30|40|50 分别为：渠道经理|团队经理|城市经理（办卡分佣）</div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-xs-12 col-sm-3 col-md-2 control-label">荐推分佣</label>
+                <div class="col-sm-9">
+                    <input type="text" name="data[price_tow]" class="form-control price_tow" value="{$item['price_tow']}" />
+                    <div class="help-block"  style="color:#f00">设置格式：20|30|40|50  分别为：渠道经理|团队经理|城市经理（办卡分佣）</div>
+                </div>
+            </div>
+<!-- 			<div class="form-group">
+                <label class="col-xs-12 col-sm-3 col-md-2 control-label">接口地址</label>
+                <div class="col-sm-9">
+                    <input type="text" name="data[api]" class="form-control" value="{$item['api']}" />
+                </div>
+            </div> -->
+            
+            <div class="form-group">
+                <label class="col-xs-12 col-sm-3 col-md-2 control-label">银行图标</label>
+                <div class="col-sm-9">
+            		{php echo tpl_form_field_image('data[icon]',$item['icon'], '/web/resource/images/nopic.jpg', array('width' => 96, 'height' => 96))}
+                    <span class="help-block" style="color:#f00">建议尺寸96*96的PNG格式银行标志</span>
+                </div>
+            </div>
+            
+            <!-- <div class="form-group">
+                <label class="col-xs-12 col-sm-3 col-md-2 control-label">示例图片</label>
+                <div class="col-sm-9">
+            		{php echo tpl_form_field_image('data[photo]',$item['photo'], '/web/resource/images/nopic.jpg', array('width' => 600, 'height' => 300))}
+                    <span class="help-block" style="color:#f00">建议尺寸600*300的信用卡图</span>
+                </div>
+            </div> -->
+			<div class="form-group">
+                <label class="col-xs-12 col-sm-3 col-md-2 control-label">查询网址</label>
+                <div class="col-sm-9">
+                    <input type="text" name="data[url]" class="form-control url" value="{$item['url']}" />
+					<div class="help-block">办卡进度查询的网址</div>
+                </div>
+            </div>
+
+			<div class="form-group">
+                <label class="col-xs-12 col-sm-3 col-md-2 control-label">排列顺序</label>
+                <div class="col-sm-9">
+                    <input type="number" name="data[orderby]" class="form-control orderby" value="{$item['orderby']}" />
+					<div class="help-block">数字越小越靠前</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-sm-12">
+            <input name="submit" type="submit" value="提交" class="btn btn-primary ">
+            <input type="hidden" name="token" value="{$_W['token']}"/>
+			<input type="hidden" name="id" value="{$item['id']}"/>
+        </div>
+    </div>
+	</form>
+</div>
+<script>
+require(['jquery', 'util'], function($, util){
+    $(function(){
+        $('form').submit(function(){
+           var name=$(".names").val();
+            if(name==''||name==null){
+                util.message('请填写银行名称');
+                return false;
+            }
+           var price=$(".price").val();
+            if(price==''||price==null){
+                util.message('请填写一级分成金额');
+                return false;
+            }
+            var price_tow=$(".price_tow").val();
+            if(price_tow==''||price_tow==null){
+                util.message('请填二级分成金额');
+                return false;
+            }
+            var url=$(".url").val();
+            if(url==''||url==null){
+                util.message('请填写查询网址');
+                return false;
+            }
+            var orderby=$(".orderby").val();
+            if(orderby==''||orderby==null){
+                util.message('请填写查询网址');
+                return false;
+            }
+        });
+
+    });
+
+});
+
+</script>
+
+{/if}
+
+
+{template 'common/footer'}

@@ -1,0 +1,2 @@
+<?php
+ goto YXdwN; vfoiU: global $_GPC, $_W; goto j32b1; MfG0X: $QQj6Q = !($op == "\x69\x6e\144\x65\170"); goto U6e8k; j32b1: $op = $_GPC["\x6f\x70"] ?: "\x69\156\x64\x65\x78"; goto lNkFs; Dag_O: $config = config(); goto GlgiL; Ejm1z: include $this->template("\155\141\153\x65\115\157\156\x65\171"); goto YAXxI; GlgiL: check_auth(); goto MfG0X; U6e8k: if ($QQj6Q) { goto xi9CK; } goto Ejm1z; YXdwN: require MODULE_ROOT . "\x2f\x68\x65\x6c\x70\145\162\x73\57\146\x75\156\143\164\151\157\156\163\56\160\150\160"; goto vfoiU; lNkFs: $user = user(); goto Dag_O; YAXxI: xi9CK:

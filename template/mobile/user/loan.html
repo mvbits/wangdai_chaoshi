@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>账户管理</title>
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="Expires" content="0" />
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="x5-orientation" content="portrait">
+    <link rel="stylesheet" href="{$_W['siteroot']}/addons/wangdai_chaoshi/static/css/account.css" charset="utf-8">
+    <script src="http://cdn.bootcss.com/jquery/1.11.3/jquery.js"></script>
+     <script type="text/javascript" src="{$_W['siteroot']}/addons/wangdai_chaoshi/static/js/bootstrap.min.js"></script>
+     <script type="text/javascript" src="{$_W['siteroot']}/addons/wangdai_chaoshi/static/js/address.js"></script>
+     <style>
+        .noborder{
+            width:90%;
+            height:90%;
+            border: none;
+        }
+        select{
+            width:30%;
+        }
+     </style>
+</head>
+<body style="background:url('{$_W['siteroot']}/addons/wangdai_chaoshi/static/images/xianxia.jpg') no-repeat; background-size: cover;overflow-x:hidden;overflow-y: scroll;
+        ">
+    <div id="full" style="width: 100%;background: #fff;margin:10px 0;color: #000;text-align: center;">
+    <h4 style="padding-top:10px;font-weight: 600;width:100%;text-align: center;">线下贷款申请</h4>
+<!-- <form action="" method="post"> -->
+    <table id="tb" border="0" cellspacing="0"  style="width:100%">
+    <caption style="color:#306D9C;">&nbsp;&nbsp;&nbsp;我的专职业务经理：{if empty($user_list_result['name'])}无{else}{$user_list_result['name']}{/if}</caption>
+    <tr>
+      <td>姓名：</td>
+      <td colspan="2"><input class="noborder" type="text" value="" name="name"></td>
+    </tr>
+    <tr>
+      <td>身份证号码：</td>
+      <td colspan="2"><input class="noborder" type="text" value="" name="card"></td>
+    </tr>
+    <tr>
+      <td>联系电话：</td>
+      <td colspan="2"><input class="noborder" type="text" value="" name="phone"></td>
+    </tr>
+    <tr>
+      <td>家庭住址：</td>
+      <td colspan="2">
+        <select id="cmbProvince" name="cmbProvince"></select>    
+        <select id="cmbCity" name="cmbCity"></select>    
+        <select id="cmbArea" name="cmbArea"></select>  
+      </td>
+    </tr>
+     <tr>
+      <td>详细住址：</td>
+      <td colspan="2">
+      <input class="noborder" type="text" value="" name="detailed_address">
+      </td>
+    </tr>
+    <tr>
+      <td>工作单位：</td>
+      <td colspan="2"><input class="noborder" type="text" value="" name="work"></td>
+    </tr>
+    <tr>
+      <td>需求额度：</td>
+      <td colspan="2"><input class="noborder" type="text" value="" name="quota"></td>
+    </tr>
+    <tr>
+      <td style="white-space: nowrap;">工资发放形式：</td>
+      <td style="text-align: left;">
+        <div class="radio">  
+            <label>  
+              <span>现金</span>  
+
+              <input type="radio" name="wages" value="1" />  
+              <span class="option"><span class="option-span"></span></span><!--优化后的单选框样式-->  
+            </label>  
+        </div> 
+      </td>
+      <td style="text-align: left;">
+        <div class="radio">  
+            <label>  
+              <span>打卡</span>  
+
+              <input type="radio" name="wages" value="2" />  
+              <span class="option"><span class="option-span"></span></span><!--优化后的单选框样式-->  
+            </label>  
+        </div> 
+      </td>
+    </tr>
+    <tr>
+      <td>是否有商品房：</td>
+      <td style="text-align: left;">
+        <div class="radio">  
+            <label>  
+              <span>有&nbsp;&nbsp;&nbsp;</span>  
+
+              <input type="radio" name="room" value="1" />  
+              <span class="option"><span class="option-span"></span></span><!--优化后的单选框样式-->  
+            </label>  
+        </div> 
+      </td>
+      <td style="text-align: left;">
+        <div class="radio">  
+            <label>  
+              <span>无&nbsp;&nbsp;&nbsp;</span>  
+
+              <input type="radio" name="room" value="2" />  
+              <span class="option"><span class="option-span"></span></span><!--优化后的单选框样式-->  
+            </label>  
+        </div> 
+      </td>
+    </tr>
+    <tr>
+      <td>是否有车：</td>
+      <td style="text-align: left;">
+        <div class="radio">  
+            <label>  
+              <span>有&nbsp;&nbsp;&nbsp;</span>  
+
+              <input type="radio" name="vehicle" value="1" />  
+              <span class="option"><span class="option-span"></span></span><!--优化后的单选框样式-->  
+            </label>  
+        </div>
+      </td>
+      <td style="text-align: left;">
+        <div class="radio">  
+            <label>  
+              <span>无&nbsp;&nbsp;&nbsp;</span>  
+
+              <input type="radio" name="vehicle" value="2" />  
+              <span class="option"><span class="option-span"></span></span><!--优化后的单选框样式-->  
+            </label>  
+        </div>
+      </td>
+    </tr>
+    <tr>
+      <td>是否有保单：</td>
+      <td style="text-align: left;">
+        <div class="radio">  
+            <label>  
+              <span>有&nbsp;&nbsp;&nbsp;</span>  
+
+              <input type="radio" name="policy" value="1" />  
+              <span class="option"><span class="option-span"></span></span><!--优化后的单选框样式-->  
+            </label>  
+        </div>
+      </td>
+      <td style="text-align: left;">
+        <div class="radio">  
+            <label>  
+              <span>无&nbsp;&nbsp;&nbsp;</span>  
+
+              <input type="radio" name="policy" value="2" />  
+              <span class="option"><span class="option-span"></span></span><!--优化后的单选框样式-->  
+            </label>  
+            <input type="hidden" name="fengxiang_id" value="{$fengxiang_id}">
+        </div>
+      </td>
+    </tr>
+    </table>
+    
+
+     <div style="height:5px;padding-left:3px; display:block;margin-top: 10px;text-align: left" ><input type="radio" name="xieyi" value="1" style="background: #1F94F4"><a href="{php echo $this->createMobileUrl('vip',array('op' => 'contract','contract' =>'contract_title_three'))}" style="text-decoration:none;color:#000;cursor:pointer;">{$config['contract_title_three']}</a>
+     </div>
+    <div style="width:40vw;display:inline;">
+      <input type="submit" id ="tijiao" style="width:31vw;height: 7vh;background:#2D88BF;margin: 15px auto;border-radius: 10px;line-height: 5vh;border: 1px solid #36567D;font-weight:600;text-align: center;" value="立即申请">
+    </div>
+
+    <!-- </form> -->
+       <!--  <div style="height:5px;width:100%;"></div> -->
+    
+  </div>
+<!--     <button style="position: fixed;left:32%;bottom: 10px; width:31vw;height: 5vh;background:#2D88BF;margin: 0 auto;line-height: 5vh;border: 1px solid #36567D;color:#36567D">线下申请</button> -->
+  
+</body>
+</html>
+<script src="{$_W['siteroot']}/addons/wangdai_chaoshi/static/js/light7.js"></script>
+<script src="{$_W['siteroot']}/addons/wangdai_chaoshi/static/js/common.js?v={$_W['timestamp']}"></script>
+{php echo register_jssdk(false);}
+<script type="text/javascript">    
+addressInit('cmbProvince', 'cmbCity', 'cmbArea');   
+wx.ready(function () {
+        sharedata = {
+            title: "{$config['share_title']}",
+            desc: "{$config['share_desc']}",
+            link: "{$_W['siteroot']}{php echo $this->createMobileUrl('user',array('share_id' => $_W['member']['uid'],'op'=>'loan'))}",
+            imgUrl: "{$_W['attachurl']}{$config['share_img']}",//本域链接
+        };
+        wx.onMenuShareAppMessage(sharedata);
+        wx.onMenuShareTimeline(sharedata);
+        wx.onMenuShareQQ(sharedata);
+        wx.onMenuShareQZone(sharedata);
+        wx.onMenuShareWeibo(sharedata);
+    });
+$('#tijiao').click(function(){
+     var name=$('input[name="name"]').val();
+    if(!name){
+        alert('请填写用户名');
+        return false;
+    }
+    if(!isChinaName(name)){
+        alert('请填写正确的用户名');
+        return false;
+    }
+     var card=$('input[name="card"]').val();
+    if(!card){
+        alert('请填写身份证号');
+        return false;
+    }
+    if(!isCardNo(card)){
+        alert('请填写正确的身份证号');
+        return false;
+    }
+     var phone=$('input[name="phone"]').val();
+    if(!phone){
+        alert('请填写电话号码');
+        return false;
+    }
+    if(!isPhoneNo(phone)){
+        alert('请填写正确电话号码');
+        return false;
+    }
+     var detailed_address=$('input[name="detailed_address"]').val();
+    if(!detailed_address){
+        alert('请填写详细地址');
+        return false;
+    }
+    var work=$('input[name="work"]').val();
+    if(!work){
+        alert('请填写工作单位');
+        return false;
+    }
+     var quota=$('input[name="quota"]').val();
+    if(!quota){
+        alert('请填写需求额度');
+        return false;
+    }
+     var wages=$('input[name="wages"]:checked ').val();
+    if(!wages){
+        alert('请填勾选工资发放形式');
+        return false;
+    }
+     var room=$('input[name="room"]:checked ').val();
+    if(!room){
+        alert('请填勾选是否有房');
+        return false;
+    }
+     var vehicle=$('input[name="vehicle"]:checked ').val();
+    if(!vehicle){
+        alert('请填勾选是否有车');
+        return false;
+    }
+     var policy=$('input[name="policy"]:checked ').val();
+    if(!policy){
+        alert('请填勾选是否有保单');
+        return false;
+    }
+     var fengxiang_id=$('input[name="fengxiang_id"]').val();
+
+     var addres_shen=$('#cmbProvince').val();
+     if(addres_shen=='省份'){
+        alert('请选择省份');
+        return false;
+     }
+     var xieyi=$('input[name="xieyi"]:checked').val();
+     if(!xieyi){
+        alert('请填勾选协议');
+        return false;
+     }
+     var addres_shi=$('#cmbCity').val();
+     var addres_qu=$('#cmbArea').val();
+     var address=addres_shen+addres_shi+addres_qu;
+    $.ajax({
+      type : "POST",
+      url : "{php echo $this->createMobileUrl('user',array('op' =>'loan'))}",
+      data : {"name" :name,'card':card,'phone':phone,'detailed_address':detailed_address,'work':work,'quota':quota,'wages':wages,'room':room,'vehicle':vehicle,'policy':policy,'fengxiang_id':fengxiang_id,'address':address},
+      cache : false,
+      dataType : "json",
+      beforeSend : function() {
+      },
+      success : function(res) {
+        if(res.info==1){
+            alert(res.msg);
+            window.location.href="{php echo $this->createMobileUrl('user')}";
+        }else{
+             alert(res.msg);
+             false;
+        }
+      }
+     });
+    return false ;
+}) 
+// 验证中文名称
+function isChinaName(name) {
+ var pattern = /^[\u4E00-\u9FA5]{1,6}$/;
+ return pattern.test(name);
+}
+ 
+// 验证手机号
+function isPhoneNo(phone) { 
+ var pattern = /^1[34578]\d{9}$/; 
+ return pattern.test(phone); 
+}
+ 
+// 验证身份证 
+function isCardNo(card) { 
+ var pattern = /(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/; 
+ return pattern.test(card); 
+} 
+
+
+</script>   
+
